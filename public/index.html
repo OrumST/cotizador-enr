@@ -3,90 +3,110 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cotizador ENR - Bot de Materiales Antofagasta</title>
+    <title>Cotizador de Materiales - Antofagasta</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f3f4f6;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f9;
         margin: 0;
         padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
       }
-      .chat-container {
-        background-color: #ffffff;
+
+      .contenedor {
+        background-color: white;
         padding: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 12px;
-        width: 90%;
-        max-width: 600px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
       }
-      .chat-box {
-        height: 300px;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        padding: 10px;
-        background-color: #fafafa;
+
+      h1 {
+        font-size: 22px;
+        color: #333;
+        margin-bottom: 16px;
       }
-      .chat-input {
-        width: calc(100% - 80px);
-        padding: 10px;
-        margin-top: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
+
+      #user-input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
       }
-      .btn-send {
-        width: 60px;
-        padding: 10px;
-        margin-left: 5px;
-        background-color: #4caf50;
+
+      button {
+        background-color: #4CAF50;
         color: white;
         border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 8px;
         cursor: pointer;
-        border-radius: 5px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #chat-box {
+        margin-top: 16px;
+      }
+
+      .producto {
+        background-color: #fafafa;
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 8px;
+        margin-top: 8px;
+      }
+
+      .precio {
+        color: green;
+        font-weight: bold;
+      }
+
+      .ver-producto {
+        display: inline-block;
+        margin-top: 4px;
+        text-decoration: none;
+        color: #1a73e8;
+      }
+
+      .ver-producto:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <div class="chat-container">
-      <h2>Bienvenido a nuestro Cotizador ENR</h2>
-      <p>Consulta sobre materiales de construcción en <strong>Antofagasta</strong>.</p>
-      <div class="chat-box" id="chat-box">
-        <p><strong>Bot:</strong> ¡Hola! ¿Qué material necesitas cotizar en Antofagasta?</p>
-      </div>
-      <input
-        type="text"
-        id="user-input"
-        class="chat-input"
-        placeholder="Ej: 'Precio vulcanita 10mm Antofagasta'"
-      />
-      <button class="btn-send" onclick="sendMessage()">Enviar</button>
+    <div class="contenedor">
+      <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
+      <input type="text" id="user-input" placeholder="¿Qué material necesitas?" />
+      <button onclick="sendMessage()">Buscar Precios</button>
+      <div id="chat-box"></div>
     </div>
 
     <script>
       async function sendMessage() {
-        const userInput = document.getElementById("user-input").value;
-        const chatBox = document.getElementById("chat-box");
+        const userInput = document.getElementById('user-input').value;
+        const chatBox = document.getElementById('chat-box');
 
-        if (!userInput.trim()) return;
+        if (userInput.trim() === '') return;
 
-        chatBox.innerHTML += `<p><strong>Tú:</strong> ${userInput}</p>`;
-        document.getElementById("user-input").value = "";
+        chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
         try {
-          const response = await fetch("/buscar?query=" + encodeURIComponent(userInput));
+          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
           const data = await response.json();
 
-          const resultados = data.organic_results.map((r) => `<li><a href="${r.link}" target="_blank">${r.title}</a></li>`).join("");
-
-          chatBox.innerHTML += `<p><strong>Bot:</strong> Resultados encontrados:</p><ul>${resultados}</ul>`;
+          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
         } catch (error) {
-          chatBox.innerHTML += `<p><strong>Bot:</strong> Hubo un error al buscar. Inténtalo de nuevo.</p>`;
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
         }
-
-        chatBox.scrollTop = chatBox.scrollHeight;
       }
     </script>
   </body>

@@ -1,119 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizador ENR - Chatbot de Materiales</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cotizador de Materiales - Antofagasta</title>
     <style>
-        /* Fondo negro */
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-        /* Contenedor del chat (Bot Naranja con sombras) */
-        .chat-container {
-            background-color: #ff7700; /* Naranja */
-            color: #fff;
-            box-shadow: 0px 4px 10px rgba(255, 119, 0, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-            position: relative;
-        }
+      .contenedor {
+        background-color: #ff7700;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(255, 119, 0, 0.8);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+      }
 
-        /* Marca de agua (logo en el centro del bot) */
-        .chat-container::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80%;
-            background: url('logo.png') no-repeat center center;
-            background-size: contain;
-            opacity: 0.1; /* Baja opacidad */
-        }
+      /* Marca de agua (logo de empresa en el centro) */
+      .contenedor::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+        background: url('logo.png') no-repeat center center;
+        background-size: contain;
+        opacity: 0.1;
+      }
 
-        /* Caja del chat */
-        .chat-box {
-            border: 1px solid #fff;
-            border-radius: 5px;
-            padding: 10px;
-            height: 300px;
-            overflow-y: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-            text-align: left;
-        }
+      h1 {
+        font-size: 22px;
+        color: white;
+        margin-bottom: 16px;
+      }
 
-        /* Entrada de texto */
-        .chat-input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 5px;
-        }
+      #user-input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+      }
 
-        /* Botón de enviar */
-        .btn-send {
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #fff;
-            color: #ff7700;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      button {
+        background-color: white;
+        color: #ff7700;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+      }
 
-        .btn-send:hover {
-            background-color: #ddd;
-        }
+      button:hover {
+        background-color: #ddd;
+      }
+
+      #chat-box {
+        margin-top: 16px;
+        text-align: left;
+      }
+
+      .producto {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 8px;
+        margin-top: 8px;
+      }
+
+      .precio {
+        color: yellow;
+        font-weight: bold;
+      }
+
+      .ver-producto {
+        display: inline-block;
+        margin-top: 4px;
+        text-decoration: none;
+        color: #1a73e8;
+      }
+
+      .ver-producto:hover {
+        text-decoration: underline;
+      }
     </style>
-</head>
-<body>
-    <div class="chat-container">
-        <div class="chat-header">Bienvenido a nuestro cotizador ENR</div>
-        <div class="chat-box" id="chat-box">
-            <p><strong>ChatGPT:</strong> ¡Hola! ¿En qué puedo ayudarte hoy?</p>
-        </div>
-        <input type="text" class="chat-input" id="user-input" placeholder="Escribe tu consulta aquí...">
-        <button class="btn-send" onclick="sendMessage()">Enviar</button>
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
+      <input type="text" id="user-input" placeholder="¿Qué material necesitas?" />
+      <button onclick="sendMessage()">Buscar Precios</button>
+      <div id="chat-box"></div>
     </div>
 
     <script>
-        async function sendMessage() {
-            const userInput = document.getElementById('user-input').value;
-            const chatBox = document.getElementById('chat-box');
+      async function sendMessage() {
+        const userInput = document.getElementById('user-input').value;
+        const chatBox = document.getElementById('chat-box');
 
-            if (userInput.trim() === '') return;
+        if (userInput.trim() === '') return;
 
-            chatBox.innerHTML += `<p><strong>Tú:</strong> ${userInput}</p>`;
-            document.getElementById('user-input').value = '';
+        chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query: userInput })
-                });
+        try {
+          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
+          const data = await response.json();
 
-                const data = await response.json();
-                chatBox.innerHTML += `<p><strong>ChatGPT:</strong> ${data.answer}</p>`;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            } catch (error) {
-                chatBox.innerHTML += `<p><strong>ChatGPT:</strong> Ocurrió un error. Intenta de nuevo.</p>`;
-            }
+          if (data.productos.length > 0) {
+            chatBox.innerHTML = data.productos.map(producto => `
+              <div class="producto">
+                <p><strong>${producto.nombre}</strong></p>
+                <p class="precio">${producto.precio}</p>
+                <a class="ver-producto" href="${producto.link}" target="_blank">Ver producto</a>
+              </div>
+            `).join('');
+          } else {
+            chatBox.innerHTML = `<p>No se encontraron productos.</p>`;
+          }
+        } catch (error) {
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
         }
+      }
     </script>
-</body>
+  </body>
 </html>

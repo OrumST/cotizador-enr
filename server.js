@@ -1,52 +1,47 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
 
 const app = express();
-const port = process.env.PORT || 3000;
-
+app.use(express.json());
 app.use(cors());
-app.use(express.static("public"));
 
-app.get("/buscar", async (req, res) => {
-  const consulta = req.query.q;
-  const apiKey = "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
+const SERPAPI_KEY = "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
 
-  try {
-    const response = await axios.get("https://serpapi.com/search.json", {
-      params: {
-        engine: "google_shopping",
-        q: consulta + " Antofagasta",
-        hl: "es",
-        gl: "cl",
-        location: "Antofagasta, Chile",
-        api_key: apiKey,
-      },
-    });
+app.post('/api/chat', async (req, res) => {
+    const userQuery = req.body.query;
 
-    const resultados = response.data.shopping_results;
+    try {
+        const response = await axios.get('https://serpapi.com/search', {
+            params: {
+                api_key: SERPAPI_KEY,
+                engine: "google_shopping",
+                q: userQuery + " Antofagasta",
+                gl: "cl",
+                hl: "es"
+            }
+        });
 
-    if (!resultados || resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
+        const results = response.data.shopping_results || [];
+        let answer = "No encontré precios exactos. Aquí tienes algunos enlaces:\n";
+
+        if (results.length > 0) {
+            answer = "Aquí tienes opciones con precios:\n";
+            results.slice(0, 5).forEach((item, index) => {
+                answer += `${index + 1}. ${item.title} - ${item.price} (${item.source})\n${item.link}\n\n`;
+            });
+        }
+
+        res.json({ answer });
+    } catch (error) {
+        console.error("Error en SerpAPI:", error);
+        res.status(500).json({ answer: "Ocurrió un error al buscar la información." });
     }
-
-    let mensaje = "<strong>Resultados encontrados:</strong><br>";
-    resultados.slice(0, 5).forEach((item) => {
-      mensaje += `<div class="producto">
-        <p><strong>${item.title}</strong></p>
-        <p>💰 Precio: <span class="precio">${item.price}</span></p>
-        <p>🏪 Tienda: ${item.source}</p>
-        <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
-      </div>`;
-    });
-
-    res.json({ respuesta: mensaje });
-  } catch (error) {
-    console.error("Error en la búsqueda:", error.message);
-    res.status(500).json({ respuesta: "Error al obtener resultados. Intenta nuevamente más tarde." });
-  }
 });
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+app.use(express.static('public')); // Asegura que el index.html sea accesible
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

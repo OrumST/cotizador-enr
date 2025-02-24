@@ -21,6 +21,8 @@
         min-height: 100vh;
         position: relative;
         text-align: center;
+        padding-bottom: 100px; /* Deja espacio para el footer */
+        margin-bottom: 0; /* Evita margen extra al fondo */
       }
 
       /* Fondo con logo en opacidad ajustada */
@@ -75,6 +77,7 @@
         margin-top: 220px; /* Posicionado a 220px del header */
         text-align: center;
         animation: fadeIn 1s ease-in-out;
+        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
       }
 
       @keyframes fadeIn {
@@ -168,6 +171,40 @@
           padding: 10px;
         }
       }
+
+      /* FOOTER */
+      footer {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        text-align: center;
+        padding: 20px;
+        position: absolute;
+        bottom: 0;
+        z-index: 1; /* Asegura que el footer esté sobre el fondo */
+      }
+
+      footer p {
+        margin: 8px 0;
+      }
+
+      .footer-socials {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .footer-socials a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 20px;
+        transition: color 0.3s;
+      }
+
+      .footer-socials a:hover {
+        color: #4CAF50;
+      }
     </style>
   </head>
   <body>
@@ -186,6 +223,21 @@
       <button onclick="sendMessage()">Buscar Precios</button>
       <div id="chat-box"></div>
     </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p><strong>ENR</strong> - Cotizador de Materiales</p>
+      <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+      <p>Contacto: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> | Tel: 958576799</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
+        </a>
+      </div>
+    </footer>
 
     <script>
       async function sendMessage() {

@@ -100,12 +100,12 @@
         chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
         try {
-          const response = await fetch(/buscar?q=${encodeURIComponent(userInput)});
+          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
           const data = await response.json();
 
-          chatBox.innerHTML = <div>${data.respuesta}</div>;
+          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
         } catch (error) {
-          chatBox.innerHTML = <p><strong>Error:</strong> No se pudo obtener respuesta.</p>;
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
         }
       }
     </script>

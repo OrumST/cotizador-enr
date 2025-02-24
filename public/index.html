@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cotizador de Materiales - Antofagasta</title>
     <style>
+      /* Reset global */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -13,15 +14,16 @@
 
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: black;
+        background-color: black; /* Fondo negro */
         display: flex;
         flex-direction: column;
         align-items: center;
         min-height: 100vh;
         position: relative;
+        text-align: center;
       }
 
-      /* Fondo con logo en opacidad ajustada */
+      /* Fondo con logo transparente */
       body::before {
         content: "";
         position: absolute;
@@ -62,7 +64,7 @@
         transform: scale(1.1);
       }
 
-      /* Contenedor principal centrado con menor margen superior */
+      /* Contenedor principal centrado y proporcionado */
       .contenedor {
         background-color: white;
         padding: 30px;
@@ -70,7 +72,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 90%;
-        margin-top: 250px; /* Menos separación desde el header */
+        margin-top: 80px; /* Separación desde el header */
         text-align: center;
         animation: fadeIn 1s ease-in-out;
       }
@@ -88,7 +90,7 @@
       }
 
       #user-input {
-        width: 100%;
+        width: calc(100% - 24px);
         padding: 12px;
         margin-bottom: 16px;
         border-radius: 8px;
@@ -145,6 +147,25 @@
 
       .ver-producto:hover {
         text-decoration: underline;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 600px) {
+        .contenedor {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 20px;
+          margin-bottom: 16px;
+        }
+        #user-input {
+          font-size: 14px;
+          padding: 10px;
+        }
+        button {
+          font-size: 14px;
+          padding: 10px;
+        }
       }
     </style>
   </head>

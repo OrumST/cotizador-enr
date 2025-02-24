@@ -70,6 +70,7 @@
         overflow: hidden;
         width: 100%;
         margin-top: 16px;
+        display: none; /* Oculto hasta que haya resultados */
       }
 
       .carousel {
@@ -107,15 +108,21 @@
         display: flex;
         justify-content: space-between;
         margin-top: 10px;
+        display: none; /* Oculto hasta que haya más de 5 resultados */
       }
 
       .carousel-button {
         background-color: #ddd;
         border: none;
-        padding: 10px;
+        padding: 8px;
         cursor: pointer;
         border-radius: 50%;
-        font-size: 18px;
+        font-size: 14px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .carousel-button:hover {
@@ -146,11 +153,20 @@
         if (userInput.trim() === '') return;
 
         document.getElementById('carousel').innerHTML = '<p><strong>Buscando...</strong></p>';
+        document.getElementById('carousel-container').style.display = 'none';
+        document.querySelector('.carousel-buttons').style.display = 'none';
 
         try {
           const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
           const data = await response.json();
           productos = data.resultados || [];
+
+          if (productos.length > 0) {
+            document.getElementById('carousel-container').style.display = 'block';
+          }
+          if (productos.length > 5) {
+            document.querySelector('.carousel-buttons').style.display = 'flex';
+          }
 
           renderCarousel();
         } catch (error) {

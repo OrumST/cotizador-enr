@@ -14,7 +14,7 @@
 
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: black; /* Fondo negro */
+        background-color: black;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -23,7 +23,7 @@
         text-align: center;
       }
 
-      /* Fondo con logo transparente */
+      /* Fondo con logo en opacidad ajustada */
       body::before {
         content: "";
         position: absolute;
@@ -64,7 +64,7 @@
         transform: scale(1.1);
       }
 
-      /* Contenedor principal centrado y proporcionado */
+      /* Contenedor principal centrado y responsivo */
       .contenedor {
         background-color: white;
         padding: 30px;
@@ -72,7 +72,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 90%;
-        margin-top: 80px; /* Separación desde el header */
+        margin-top: 220px; /* Posicionado a 220px del header */
         text-align: center;
         animation: fadeIn 1s ease-in-out;
       }
@@ -149,10 +149,11 @@
         text-decoration: underline;
       }
 
-      /* Responsive adjustments */
+      /* Ajustes responsivos */
       @media (max-width: 600px) {
         .contenedor {
           padding: 20px;
+          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
         }
         h1 {
           font-size: 20px;

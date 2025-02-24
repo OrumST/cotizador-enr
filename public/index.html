@@ -1,125 +1,174 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador de Materiales - Antofagasta</title>
     <style>
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f4f4f9;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-      }
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/public/logo');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.95;
+        }
 
-      .contenedor {
-        background-color: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        width: 100%;
-        animation: fadeIn 1s ease-in-out;
-      }
+        /* Estilos del header */
+        .header {
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            text-align: center;
+        }
 
-      @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
 
-      h1 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-      }
+        .header nav a:hover {
+            color: #4CAF50;
+        }
 
-      #user-input {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 16px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-      }
+        /* Estilos del contenedor principal */
+        .contenedor {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
 
-      button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 12px;
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s, background-color 0.2s;
-        font-size: 16px;
-        font-weight: bold;
-      }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
 
-      button:hover {
-        transform: scale(1.05);
-        background-color: #45a049;
-      }
+        /* Estilos del título */
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-      #chat-box {
-        margin-top: 16px;
-      }
+        /* Estilos del input */
+        #user-input {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-bottom: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            text-align: center;
+        }
 
-      .producto {
-        background-color: #fafafa;
-        border: 1px solid #ddd;
-        padding: 8px;
-        border-radius: 8px;
-        margin-top: 8px;
-      }
+        #user-input::placeholder {
+            text-align: center;
+        }
 
-      .precio {
-        color: green;
-        font-weight: bold;
-      }
+        /* Estilos del botón */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-      .ver-producto {
-        display: inline-block;
-        margin-top: 4px;
-        text-decoration: none;
-        color: #1a73e8;
-      }
+        button:hover {
+            transform: scale(1.05);
+            background-color: #45a049;
+        }
 
-      .ver-producto:hover {
-        text-decoration: underline;
-      }
+        /* Estilos del chat box */
+        #chat-box {
+            margin-top: 16px;
+        }
+
+        .producto {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        .precio {
+            color: green;
+            font-weight: bold;
+        }
+
+        .ver-producto {
+            display: inline-block;
+            margin-top: 4px;
+            text-decoration: none;
+            color: #1a73e8;
+        }
+
+        .ver-producto:hover {
+            text-decoration: underline;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
+
+    <!-- Header con navegación -->
+    <header class="header">
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#">Contacto</a>
+        </nav>
+    </header>
+
+    <!-- Contenedor principal -->
     <div class="contenedor">
-      <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" placeholder="¿Qué material necesitas?" />
-      <button onclick="sendMessage()">Buscar Precios</button>
-      <div id="chat-box"></div>
+        <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
+        <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
+        <button onclick="sendMessage()">Buscar Precios</button>
+        <div id="chat-box"></div>
     </div>
 
     <script>
-      async function sendMessage() {
-        const userInput = document.getElementById('user-input').value;
-        const chatBox = document.getElementById('chat-box');
+        async function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            const chatBox = document.getElementById('chat-box');
 
-        if (userInput.trim() === '') return;
+            if (userInput.trim() === '') return;
 
-        chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
+            chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
-        try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
-          const data = await response.json();
+            try {
+                const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
+                const data = await response.json();
 
-          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
-        } catch (error) {
-          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
+                chatBox.innerHTML = `<div>${data.respuesta}</div>`;
+            } catch (error) {
+                chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
+            }
         }
-      }
     </script>
-  </body>
+
+</body>
 </html>

@@ -16,7 +16,7 @@ app.get("/buscar", async (req, res) => {
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
-        q: consulta + " Antofagasta",
+        q: consulta + "Antofagasta",
         hl: "es",
         gl: "cl",
         location: "Antofagasta, Chile",

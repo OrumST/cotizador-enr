@@ -7,44 +7,41 @@
     <style>
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #000; /* Fondo negro */
+        background-color: #000;
         margin: 0;
         padding: 0;
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        position: relative;
       }
 
       .contenedor {
-        background-color: #222; /* Fondo oscuro para el bot */
+        background-color: #1a1a1a;
         padding: 20px;
-        border-radius: 11px;
-        box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4); /* Sombra naranja */
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(255, 165, 0, 0.6);
         max-width: 400px;
         width: 100%;
         position: relative;
+        text-align: center;
       }
 
-      /* Marca de agua */
       .marca-agua {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        opacity: 0.1; /* Baja opacidad */
-        font-size: 80px;
-        font-weight: bold;
-        color: white;
+        opacity: 0.1;
+        width: 150px;
+        height: auto;
         pointer-events: none;
       }
 
       h1 {
         font-size: 22px;
-        color: #ffa500; /* Texto naranja */
+        color: #ff9800;
         margin-bottom: 16px;
-        text-align: center;
       }
 
       #user-input {
@@ -52,42 +49,40 @@
         padding: 12px;
         margin-bottom: 12px;
         border-radius: 8px;
-        border: 1px solid #ffa500; /* Borde naranja */
-        background-color: #333;
-        color: white;
+        border: 1px solid #ff9800;
+        background-color: #222;
+        color: #fff;
       }
 
       button {
-        background-color: #ff8c00; /* Botón naranja */
+        background-color: #ff9800;
         color: white;
         border: none;
         padding: 12px;
         width: 100%;
         border-radius: 8px;
         cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
       }
 
       button:hover {
-        background-color: #e67e00;
+        background-color: #e68900;
       }
 
       #chat-box {
         margin-top: 16px;
-        color: white;
       }
 
       .producto {
-        background-color: #333;
-        border: 1px solid #ffa500; /* Bordes naranjas */
+        background-color: #2a2a2a;
+        border: 1px solid #ff9800;
         padding: 8px;
         border-radius: 8px;
         margin-top: 8px;
+        color: white;
       }
 
       .precio {
-        color: #4CAF50;
+        color: #4caf50;
         font-weight: bold;
       }
 
@@ -95,7 +90,7 @@
         display: inline-block;
         margin-top: 4px;
         text-decoration: none;
-        color: #ffa500;
+        color: #ff9800;
       }
 
       .ver-producto:hover {
@@ -105,7 +100,7 @@
   </head>
   <body>
     <div class="contenedor">
-      <div class="marca-agua">ENR</div> <!-- Marca de agua -->
+      <img src="logo.png" alt="Logo ENR" class="marca-agua" />
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
       <input type="text" id="user-input" placeholder="¿Qué material necesitas?" />
       <button onclick="sendMessage()">Buscar Precios</button>

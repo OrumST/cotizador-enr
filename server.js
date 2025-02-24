@@ -24,13 +24,23 @@ app.get("/buscar", async (req, res) => {
       },
     });
 
-    const resultados = response.data.shopping_results;
+    let resultados = response.data.shopping_results;
 
     if (!resultados || resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
+      return res.json({ respuesta: "No se encontraron productos con precios en Antofagasta." });
     }
 
-    let mensaje = "<strong>Resultados encontrados:</strong><br>";
+    // Filtrar solo los que mencionan "Antofagasta" en la tienda o descripción
+    resultados = resultados.filter((item) => 
+      item.source.toLowerCase().includes("antofagasta") || 
+      (item.title && item.title.toLowerCase().includes("antofagasta"))
+    );
+
+    if (resultados.length === 0) {
+      return res.json({ respuesta: "No se encontraron resultados específicos para Antofagasta." });
+    }
+
+    let mensaje = "<strong>Resultados en Antofagasta:</strong><br>";
     resultados.slice(0, 5).forEach((item) => {
       mensaje += `<div class="producto">
         <p><strong>${item.title}</strong></p>

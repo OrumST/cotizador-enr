@@ -19,8 +19,24 @@
         flex-direction: column;
         align-items: center;
         min-height: 100vh;
+        position: relative;
         text-align: center;
-        padding-bottom: 100px;
+        padding-bottom: 100px; /* Deja espacio para el footer */
+        margin-bottom: 0; /* Evita margen extra al fondo */
+      }
+
+      /* Fondo con logo en opacidad ajustada */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/public/logo") no-repeat center center;
+        background-size: contain;
+        opacity: 0.2;
+        z-index: -1;
       }
 
       /* HEADER */
@@ -50,7 +66,7 @@
         transform: scale(1.1);
       }
 
-      /* Contenedor principal */
+      /* Contenedor principal centrado y responsivo */
       .contenedor {
         background-color: white;
         padding: 30px;
@@ -58,8 +74,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 90%;
-        margin-top: 220px;
+        margin-top: 220px; /* Posicionado a 220px del header */
+        text-align: center;
         animation: fadeIn 1s ease-in-out;
+        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
       }
 
       @keyframes fadeIn {
@@ -71,6 +89,7 @@
         font-size: 24px;
         color: #333;
         margin-bottom: 20px;
+        text-align: center;
       }
 
       #user-input {
@@ -80,6 +99,10 @@
         border-radius: 8px;
         border: 1px solid #ccc;
         font-size: 16px;
+        text-align: center;
+      }
+
+      #user-input::placeholder {
         text-align: center;
       }
 
@@ -101,50 +124,52 @@
         background-color: #45a049;
       }
 
-      /* Estilos para los productos */
-      .productos {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-        margin-top: 20px;
+      #chat-box {
+        margin-top: 16px;
       }
 
       .producto {
         background-color: #fafafa;
-        border: 2px solid #ddd;
-        border-radius: 10px;
-        padding: 15px;
-        text-align: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out;
-      }
-
-      .producto:hover {
-        transform: scale(1.05);
+        border: 1px solid #ddd;
+        padding: 8px;
+        border-radius: 8px;
+        margin-top: 8px;
       }
 
       .precio {
         color: green;
-        font-size: 20px;
         font-weight: bold;
       }
 
       .ver-producto {
         display: inline-block;
-        margin-top: 10px;
+        margin-top: 4px;
         text-decoration: none;
         color: #1a73e8;
-        font-weight: bold;
       }
 
       .ver-producto:hover {
         text-decoration: underline;
       }
 
-      /* Producto con menor precio resaltado */
-      .menor-precio {
-        border: 3px solid #4CAF50 !important;
-        background-color: #e8ffe8 !important;
+      /* Ajustes responsivos */
+      @media (max-width: 600px) {
+        .contenedor {
+          padding: 20px;
+          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
+        }
+        h1 {
+          font-size: 20px;
+          margin-bottom: 16px;
+        }
+        #user-input {
+          font-size: 14px;
+          padding: 10px;
+        }
+        button {
+          font-size: 14px;
+          padding: 10px;
+        }
       }
 
       /* FOOTER */
@@ -156,6 +181,11 @@
         padding: 20px;
         position: absolute;
         bottom: 0;
+        z-index: 1; /* Asegura que el footer esté sobre el fondo */
+      }
+
+      footer p {
+        margin: 8px 0;
       }
 
       .footer-socials {
@@ -164,10 +194,16 @@
         margin-top: 10px;
       }
 
-      .footer-socials a img {
-        width: 30px;
-        height: 30px;
-        margin: 0 10px;
+      .footer-socials a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 20px;
+        transition: color 0.3s;
+      }
+
+      .footer-socials a:hover {
+        color: #4CAF50;
       }
     </style>
   </head>
@@ -185,7 +221,7 @@
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
       <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
       <button onclick="sendMessage()">Buscar Precios</button>
-      <div id="chat-box" class="productos"></div>
+      <div id="chat-box"></div>
     </div>
 
     <!-- FOOTER -->
@@ -195,10 +231,10 @@
       <p>Contacto: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> | Tel: 958576799</p>
       <div class="footer-socials">
         <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" />
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
         </a>
         <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" />
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
         </a>
       </div>
     </footer>
@@ -213,33 +249,12 @@
         chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
         try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
+          const response = await fetch(/buscar?q=${encodeURIComponent(userInput)});
           const data = await response.json();
 
-          chatBox.innerHTML = "";
-          let menorPrecio = Infinity;
-          let menorIndex = -1;
-
-          data.resultados.forEach((producto, index) => {
-            if (producto.precio < menorPrecio) {
-              menorPrecio = producto.precio;
-              menorIndex = index;
-            }
-          });
-
-          data.resultados.forEach((producto, index) => {
-            let productoHTML = `
-              <div class="producto ${index === menorIndex ? 'menor-precio' : ''}">
-                <h3>${producto.nombre}</h3>
-                <p class="precio">$${producto.precio}</p>
-                <a class="ver-producto" href="${producto.link}" target="_blank">Ver producto</a>
-              </div>
-            `;
-            chatBox.innerHTML += productoHTML;
-          });
-
+          chatBox.innerHTML = <div>${data.respuesta}</div>;
         } catch (error) {
-          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
+          chatBox.innerHTML = <p><strong>Error:</strong> No se pudo obtener respuesta.</p>;
         }
       }
     </script>

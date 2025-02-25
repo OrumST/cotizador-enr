@@ -16,7 +16,7 @@ app.get("/buscar", async (req, res) => {
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
-        q: consulta + "Antofagasta",
+        q: consulta + " Antofagasta",
         hl: "es",
         gl: "cl",
         location: "Antofagasta, Chile",
@@ -32,12 +32,12 @@ app.get("/buscar", async (req, res) => {
 
     let mensaje = "<strong>Resultados encontrados:</strong><br>";
     resultados.slice(0, 5).forEach((item) => {
-      mensaje += <div class="producto">
+      mensaje += `<div class="producto">
         <p><strong>${item.title}</strong></p>
         <p>💰 Precio: <span class="precio">${item.price}</span></p>
         <p>🏪 Tienda: ${item.source}</p>
         <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
-      </div>;
+      </div>`;
     });
 
     res.json({ respuesta: mensaje });
@@ -48,5 +48,5 @@ app.get("/buscar", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(Servidor corriendo en http://localhost:${port});
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });

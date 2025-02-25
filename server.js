@@ -4,15 +4,17 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
+const apiKey = process.env.SERPAPI_KEY || "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
 
 app.use(cors());
 app.use(express.static("public"));
 
 app.get("/buscar", async (req, res) => {
   const consulta = req.query.q;
-  const apiKey = "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
+  if (!consulta) {
+    return res.json({ respuesta: "Por favor, ingresa un término de búsqueda." });
+  }
 
-  // Lista de tiendas específicas en Antofagasta
   const tiendasPermitidas = [
     "Sodimac Antofagasta",
     "Construmart Antofagasta",
@@ -38,15 +40,15 @@ app.get("/buscar", async (req, res) => {
       },
     });
 
-    let resultados = response.data.shopping_results;
+    let resultados = response.data?.shopping_results || [];
 
-    if (!resultados || resultados.length === 0) {
+    if (resultados.length === 0) {
       return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
     }
 
-    // Filtrar solo tiendas de Antofagasta
+    // Filtrar solo tiendas locales y evitar errores con `undefined`
     resultados = resultados.filter((item) =>
-      tiendasPermitidas.some((tienda) => item.source.toLowerCase().includes(tienda.toLowerCase()))
+      tiendasPermitidas.some((tienda) => item.source?.toLowerCase().includes(tienda.toLowerCase()))
     );
 
     if (resultados.length === 0) {
@@ -57,8 +59,8 @@ app.get("/buscar", async (req, res) => {
     resultados.slice(0, 10).forEach((item) => {
       mensaje += `<div class="producto">
         <p><strong>${item.title}</strong></p>
-        <p>💰 Precio: <span class="precio">${item.price}</span></p>
-        <p>🏪 Tienda: ${item.source}</p>
+        <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
+        <p>🏪 Tienda: ${item.source || "No especificada"}</p>
         <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
       </div>`;
     });
@@ -71,5 +73,5 @@ app.get("/buscar", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });

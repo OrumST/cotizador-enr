@@ -12,6 +12,20 @@ app.get("/buscar", async (req, res) => {
   const consulta = req.query.q;
   const apiKey = "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
 
+  // Lista de tiendas específicas en Antofagasta
+  const tiendasPermitidas = [
+    "Sodimac Antofagasta",
+    "Construmart Antofagasta",
+    "Easy Antofagasta",
+    "MTS Antofagasta",
+    "Ferretería Prat",
+    "Imperial Antofagasta",
+    "Construmart",
+    "Sodimac",
+    "Easy",
+    "Homecenter Antofagasta"
+  ];
+
   try {
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
@@ -24,14 +38,23 @@ app.get("/buscar", async (req, res) => {
       },
     });
 
-    const resultados = response.data.shopping_results;
+    let resultados = response.data.shopping_results;
 
     if (!resultados || resultados.length === 0) {
       return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
     }
 
+    // Filtrar solo tiendas de Antofagasta
+    resultados = resultados.filter((item) =>
+      tiendasPermitidas.some((tienda) => item.source.toLowerCase().includes(tienda.toLowerCase()))
+    );
+
+    if (resultados.length === 0) {
+      return res.json({ respuesta: "No se encontraron productos en tiendas locales de Antofagasta." });
+    }
+
     let mensaje = "<strong>Resultados encontrados:</strong><br>";
-    resultados.slice(0, 5).forEach((item) => {
+    resultados.slice(0, 10).forEach((item) => {
       mensaje += `<div class="producto">
         <p><strong>${item.title}</strong></p>
         <p>💰 Precio: <span class="precio">${item.price}</span></p>

@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
-const apiKey = process.env.SERPAPI_KEY || "TU_API_KEY";
+const apiKey = process.env.SERPAPI_KEY || "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
 
 app.use(cors());
 app.use(express.static("public"));
@@ -66,6 +66,7 @@ app.get("/buscar", async (req, res) => {
       .filter(item => 
         ferreteriasLocales.some(tienda => 
           item.source.toLowerCase().includes(tienda.toLowerCase())
+        )
       )
       .filter(item => 
         item.title.toLowerCase().includes(consultaLimpia)

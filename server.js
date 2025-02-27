@@ -30,7 +30,7 @@ async function buscarProductos(query) {
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
-        q: query + " Antofagasta", // Siempre busca en Antofagasta
+        q: query.split(" ")[0] + " Antofagasta", // Busca solo la primera palabra clave + "Antofagasta"
         hl: "es",
         gl: "cl",
         location: "Antofagasta, Chile",
@@ -40,12 +40,17 @@ async function buscarProductos(query) {
 
     let resultados = response.data?.shopping_results || [];
 
-    // Filtrar solo tiendas locales
-    resultados = resultados.filter((item) =>
-      ferreteriasLocales.some((tienda) =>
-        item.source?.toLowerCase().includes(tienda.toLowerCase())
-      )
-    );
+    // Filtrar solo tiendas locales y coincidencia parcial en el título
+    resultados = resultados.filter((item) => {
+      const titulo = item.title.toLowerCase();
+      const consultaLower = query.toLowerCase();
+
+      return (
+        ferreteriasLocales.some((tienda) =>
+          item.source?.toLowerCase().includes(tienda.toLowerCase())
+        ) && titulo.includes(consultaLower)
+      );
+    });
 
     return resultados;
   } catch (error) {

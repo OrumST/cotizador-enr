@@ -17,9 +17,9 @@ app.get('/buscar', async (req, res) => {
     }
 
     try {
-        // Simulación de búsqueda en varias fuentes (ajústalo según tu base de datos)
+        // Simulación de búsqueda en varias fuentes
         const productos = await buscarProductos(query);
-        res.json({ productos });
+        res.json({ respuesta: productos }); // Cambiado a "respuesta"
     } catch (error) {
         console.error('Error al buscar productos:', error);
         res.status(500).json({ error: 'Error en el servidor' });
@@ -28,7 +28,7 @@ app.get('/buscar', async (req, res) => {
 
 // Función que simula la búsqueda en una base de datos
 async function buscarProductos(query) {
-    // Ejemplo de productos simulados (conéctalo a una base real si tienes una)
+    // Ejemplo de productos simulados
     const productosEjemplo = [
         {
             nombre: 'Cemento Melón 25kg',
@@ -36,7 +36,7 @@ async function buscarProductos(query) {
             tienda: 'Construmart',
             visitas: Math.floor(Math.random() * 1000),
             imagen: 'https://via.placeholder.com/150',
-            url: 'https://www.construmart.cl/cemento-melon'
+            link: 'https://www.construmart.cl/cemento-melon' // Cambiado a "link"
         },
         {
             nombre: 'Plancha de OSB 15mm',
@@ -44,7 +44,7 @@ async function buscarProductos(query) {
             tienda: 'Sodimac',
             visitas: Math.floor(Math.random() * 1000),
             imagen: 'https://via.placeholder.com/150',
-            url: 'https://www.sodimac.cl/osb-15mm'
+            link: 'https://www.sodimac.cl/osb-15mm' // Cambiado a "link"
         }
     ];
 

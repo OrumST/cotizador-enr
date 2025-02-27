@@ -206,33 +206,29 @@
         width: 100%;
         background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
         color: #333; /* Texto oscuro para mejor contraste */
-        text-align: center;
         padding: 20px;
         position: fixed; /* Fijo al pie de página */
         bottom: 0;
         left: 0;
         z-index: 1; /* Asegura que el footer esté sobre el fondo */
         border-top: 1px solid #ddd; /* Línea superior sutil */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
-      .footer-content {
-        max-width: 600px;
-        margin: 0 auto;
+      .footer-content-left {
+        display: flex;
+        align-items: center;
       }
 
-      .footer-link {
-        color: #333; /* Color del enlace igual al texto */
-        text-decoration: none;
-      }
-
-      .footer-link:hover {
-        text-decoration: underline; /* Subrayado al hacer hover */
+      .footer-content-left p {
+        margin-right: 20px;
       }
 
       .footer-socials {
         display: flex;
         justify-content: center;
-        margin-top: 10px;
       }
 
       .footer-socials a {
@@ -242,6 +238,21 @@
 
       .footer-socials a:hover {
         transform: scale(1.1); /* Efecto de escala al hacer hover */
+      }
+
+      .footer-content-right {
+        text-align: right;
+      }
+
+      .legal-links a {
+        color: #333; /* Color del enlace igual al texto */
+        text-decoration: none;
+        display: block;
+        margin: 5px 0;
+      }
+
+      .legal-links a:hover {
+        text-decoration: underline;
       }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -274,10 +285,12 @@
 
     <!-- FOOTER -->
     <footer>
-      <div class="footer-content">
-        <p><strong>ENR</strong> - Cotizador de Materiales</p>
-        <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-        <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+      <div class="footer-content-left">
+        <div>
+          <p><strong>ENR</strong> - Cotizador de Materiales</p>
+          <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+          <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+        </div>
         <div class="footer-socials">
           <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
             <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
@@ -285,6 +298,14 @@
           <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
             <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
           </a>
+        </div>
+      </div>
+
+      <div class="footer-content-right">
+        <div class="legal-links">
+          <a href="terminos.html">Términos y condiciones</a>
+          <a href="preguntas-frecuentes.html">Preguntas frecuentes</a>
+          <a href="politica-privacidad.html">Política de privacidad</a>
         </div>
       </div>
     </footer>
@@ -298,46 +319,48 @@
       // Guardar búsqueda en localStorage
       function guardarBusqueda(consulta) {
         let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedas = [consulta, ...busquedas].slice(0, 5); // Guardar las últimas 5
+        busquedas = [consulta, ...busquedas].slice(0, 5); // Solo mantener las últimas 5 búsquedas
         localStorage.setItem('busquedas', JSON.stringify(busquedas));
         mostrarBusquedasRecientes();
       }
 
       // Mostrar búsquedas recientes
       function mostrarBusquedasRecientes() {
-        const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedasRecientes.innerHTML = busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
+        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+        busquedasRecientes.innerHTML = '';
+        busquedas.forEach(consulta => {
+          const link = document.createElement('a');
+          link.href = `#`;
+          link.textContent = consulta;
+          link.onclick = function () {
+            buscar(consulta);
+          };
+          busquedasRecientes.appendChild(link);
+        });
       }
 
-      // Llamar a la función al cargar la página
-      mostrarBusquedasRecientes();
-
-      async function buscarMaterial() {
-        const consulta = userInput.value.trim();
-        if (consulta === '') return;
-
-        loading.style.display = 'block';
-        chatBox.innerHTML = '';
-
-        try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
-          const data = await response.json();
-
-          chatBox.innerHTML = data.respuesta;
-          guardarBusqueda(consulta);
-        } catch (error) {
-          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
-          console.error("Error en la petición:", error);
-        } finally {
-          loading.style.display = 'none';
+      // Función para buscar material
+      function buscarMaterial() {
+        const consulta = userInput.value;
+        if (consulta.trim()) {
+          loading.style.display = 'block';
+          // Simulación de búsqueda
+          setTimeout(() => {
+            loading.style.display = 'none';
+            chatBox.innerHTML = `
+              <div class="producto">
+                <h3>${consulta}</h3>
+                <p class="precio">Precio: $5000 CLP</p>
+                <a href="#" class="ver-producto">Ver producto</a>
+              </div>
+            `;
+            guardarBusqueda(consulta);
+          }, 2000);
         }
       }
 
-      // Función para buscar desde el historial
-      function buscar(consulta) {
-        userInput.value = consulta;
-        buscarMaterial();
-      }
+      // Cargar las búsquedas recientes al cargar la página
+      document.addEventListener('DOMContentLoaded', mostrarBusquedasRecientes);
     </script>
   </body>
 </html>

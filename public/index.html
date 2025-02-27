@@ -21,10 +21,11 @@
         min-height: 100vh;
         position: relative;
         text-align: center;
-        padding-bottom: 100px;
+        padding-bottom: 100px; /* Deja espacio para el footer */
+        margin-bottom: 0; /* Evita margen extra al fondo */
       }
 
-      /* Fondo con logo de marca de agua */
+      /* Fondo con logo en opacidad ajustada */
       body::before {
         content: "";
         position: absolute;
@@ -65,7 +66,7 @@
         transform: scale(1.1);
       }
 
-      /* Contenedor principal */
+      /* Contenedor principal centrado y responsivo */
       .contenedor {
         background-color: white;
         padding: 30px;
@@ -73,10 +74,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 90%;
-        margin-top: 220px;
+        margin-top: 220px; /* Posicionado a 220px del header */
         text-align: center;
         animation: fadeIn 1s ease-in-out;
-        z-index: 5;
+        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
       }
 
       @keyframes fadeIn {
@@ -88,6 +89,7 @@
         font-size: 24px;
         color: #333;
         margin-bottom: 20px;
+        text-align: center;
       }
 
       #user-input {
@@ -97,6 +99,10 @@
         border-radius: 8px;
         border: 1px solid #ccc;
         font-size: 16px;
+        text-align: center;
+      }
+
+      #user-input::placeholder {
         text-align: center;
       }
 
@@ -118,26 +124,16 @@
         background-color: #45a049;
       }
 
-      /* Estilo para los resultados */
-      #resultados {
-        margin-top: 20px;
-        width: 100%;
-        max-width: 600px;
+      #chat-box {
+        margin-top: 16px;
       }
 
       .producto {
-        background-color: white;
+        background-color: #fafafa;
+        border: 1px solid #ddd;
+        padding: 8px;
         border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        padding: 12px;
-        margin: 8px 0;
-        text-align: left;
-        animation: fadeIn 0.5s ease-in-out;
-      }
-
-      .producto h3 {
-        color: #333;
-        margin-bottom: 5px;
+        margin-top: 8px;
       }
 
       .precio {
@@ -156,6 +152,26 @@
         text-decoration: underline;
       }
 
+      /* Ajustes responsivos */
+      @media (max-width: 600px) {
+        .contenedor {
+          padding: 20px;
+          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
+        }
+        h1 {
+          font-size: 20px;
+          margin-bottom: 16px;
+        }
+        #user-input {
+          font-size: 14px;
+          padding: 10px;
+        }
+        button {
+          font-size: 14px;
+          padding: 10px;
+        }
+      }
+
       /* FOOTER */
       footer {
         width: 100%;
@@ -165,7 +181,11 @@
         padding: 20px;
         position: absolute;
         bottom: 0;
-        z-index: 1;
+        z-index: 1; /* Asegura que el footer esté sobre el fondo */
+      }
+
+      footer p {
+        margin: 8px 0;
       }
 
       .footer-socials {
@@ -174,10 +194,16 @@
         margin-top: 10px;
       }
 
-      .footer-socials a img {
-        width: 30px;
-        height: 30px;
-        margin: 0 10px;
+      .footer-socials a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 20px;
+        transition: color 0.3s;
+      }
+
+      .footer-socials a:hover {
+        color: #4CAF50;
       }
     </style>
   </head>
@@ -194,8 +220,8 @@
     <div class="contenedor">
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
       <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
-      <button onclick="buscarMaterial()">Buscar Precios</button>
-      <div id="resultados"></div>
+      <button onclick="sendMessage()">Buscar Precios</button>
+      <div id="chat-box"></div>
     </div>
 
     <!-- FOOTER -->
@@ -205,41 +231,30 @@
       <p>Contacto: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> | Tel: 958576799</p>
       <div class="footer-socials">
         <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" />
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
         </a>
         <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" />
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
         </a>
       </div>
     </footer>
 
     <script>
-      async function buscarMaterial() {
-        const userInput = document.getElementById('user-input').value.trim();
-        const resultados = document.getElementById('resultados');
+      async function sendMessage() {
+        const userInput = document.getElementById('user-input').value;
+        const chatBox = document.getElementById('chat-box');
 
-        if (userInput === '') return;
+        if (userInput.trim() === '') return;
 
-        resultados.innerHTML = '<p><strong>Buscando...</strong></p>';
+        chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
         try {
           const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
           const data = await response.json();
 
-          if (!data.respuesta || data.respuesta.length === 0) {
-            resultados.innerHTML = '<p>No se encontraron resultados.</p>';
-            return;
-          }
-
-          resultados.innerHTML = data.respuesta.map(prod => `
-            <div class="producto">
-              <h3>${prod.nombre}</h3>
-              <p class="precio">${prod.precio}</p>
-              <a href="${prod.link}" class="ver-producto" target="_blank">Ver producto</a>
-            </div>
-          `).join('');
+          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
         } catch (error) {
-          resultados.innerHTML = '<p><strong>Error:</strong> No se pudo obtener respuesta.</p>';
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
           console.error("Error en la petición:", error);
         }
       }

@@ -25,7 +25,16 @@ app.get("/buscar", async (req, res) => {
     "Construmart",
     "Sodimac",
     "Easy",
-    "Homecenter Antofagasta"
+    "Homecenter Antofagasta",
+    "Ferretería San Carlos",
+    "Comercializadora Central",
+    "Ferretería Prat",
+    "Tienda Würth Antofagasta",
+    "Planchacor Antofagasta",
+    "Ferretería Antofagasta",
+    "Ferretería Comerbas",
+    "Ferretería VCA",
+    "Gatica Hermanos"
   ];
 
   try {

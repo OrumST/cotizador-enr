@@ -57,12 +57,14 @@ app.get("/buscar", async (req, res) => {
 
     let mensaje = "<strong>Resultados encontrados:</strong><br>";
     resultados.slice(0, 10).forEach((item) => {
-      mensaje += <div class="producto">
-        <p><strong>${item.title}</strong></p>
-        <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
-        <p>🏪 Tienda: ${item.source || "No especificada"}</p>
-        <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
-      </div>;
+      mensaje += `
+        <div class="producto">
+          <p><strong>${item.title}</strong></p>
+          <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
+          <p>🏪 Tienda: ${item.source || "No especificada"}</p>
+          <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
+        </div>
+      `;
     });
 
     res.json({ respuesta: mensaje });
@@ -73,5 +75,5 @@ app.get("/buscar", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(🚀 Servidor corriendo en http://localhost:${port});
+  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });

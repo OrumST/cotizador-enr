@@ -14,24 +14,37 @@
 
       body {
         font-family: 'Roboto', sans-serif;
-        background-color: #f4f4f4;
+        background-color: #000;
+        color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
         min-height: 100vh;
         padding: 20px;
-        text-align: center;
-        color: #333;
       }
 
-      h1 {
-        font-size: 32px;
+      header {
+        width: 100%;
+        background-color: #333;
+        padding: 10px 0;
+        text-align: center;
         margin-bottom: 20px;
-        color: #333;
+      }
+
+      header a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+      }
+
+      header a:hover {
+        text-decoration: underline;
       }
 
       .contenedor {
-        background-color: white;
+        background-color: #fff;
+        color: #333;
         padding: 40px;
         max-width: 800px;
         width: 100%;
@@ -44,14 +57,12 @@
       .contenedor h2 {
         font-size: 24px;
         margin-top: 20px;
-        color: #333;
       }
 
       .contenedor p {
         font-size: 16px;
         line-height: 1.6;
         margin-top: 10px;
-        color: #555;
       }
 
       .contenedor ul {
@@ -62,8 +73,25 @@
 
       .contenedor ul li {
         font-size: 16px;
-        color: #555;
         margin-bottom: 8px;
+      }
+
+      .volver-btn {
+        background-color: #ff6f00;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+        display: inline-block;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+      }
+
+      .volver-btn:hover {
+        background-color: #e65c00;
       }
 
       footer {
@@ -102,8 +130,13 @@
     </style>
   </head>
   <body>
-    <h1>Términos y Condiciones</h1>
+    <header>
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
+    </header>
+
     <div class="contenedor">
+      <h1>Términos y Condiciones</h1>
       <h2>Introducción</h2>
       <p>Bienvenido a ENR - Cotizador de Materiales. Estos Términos y Condiciones rigen el uso de nuestro sitio web y los servicios ofrecidos. Al acceder y utilizar este sitio, usted acepta los términos y condiciones establecidos a continuación.</p>
 
@@ -137,6 +170,9 @@
 
       <h2>9. Contacto</h2>
       <p>Si tiene alguna pregunta o inquietud acerca de estos Términos y Condiciones, puede contactarnos a través del correo <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> o llamarnos al <strong>958576799</strong>.</p>
+
+      <!-- Botón para volver -->
+      <button class="volver-btn" onclick="window.history.back()">Volver</button>
     </div>
 
     <footer>

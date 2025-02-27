@@ -5,36 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contacto - ENR Cotizador</title>
     <style>
+      /* Reset global */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
       body {
         font-family: 'Roboto', sans-serif;
         background-color: black;
         color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
         text-align: center;
-        padding: 50px;
       }
+
+      /* Contenedor principal */
+      .contenedor-contacto {
+        background-color: rgba(255, 255, 255, 0.1); /* Fondo semitransparente */
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 90%;
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
       h1 {
         font-size: 28px;
         margin-bottom: 20px;
+        color: #4CAF50; /* Verde para destacar */
       }
+
       p {
         font-size: 18px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
+        line-height: 1.6;
       }
+
       a {
         color: #4CAF50;
         text-decoration: none;
+        transition: color 0.3s;
       }
+
       a:hover {
-        text-decoration: underline;
+        color: #45a049; /* Verde más oscuro al hacer hover */
+      }
+
+      .info-contacto {
+        margin-top: 20px;
+      }
+
+      .info-contacto p {
+        margin-bottom: 10px;
+      }
+
+      .info-contacto a {
+        display: inline-block;
+        margin: 5px 0;
+      }
+
+      .boton-volver {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .boton-volver:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+      }
+
+      /* Estilos del formulario */
+      form {
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      form input, form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      form textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      form button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      form button:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
+      }
+
+      /* Ajustes responsivos */
+      @media (max-width: 600px) {
+        .contenedor-contacto {
+          padding: 20px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+        p {
+          font-size: 16px;
+        }
       }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h1>Contacto</h1>
-    <p>¿Tienes alguna pregunta o necesitas ayuda?</p>
-    <p>Envíanos un correo a: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a></p>
-    <p>Teléfono: <a href="tel:+56958576799">958576799</a></p>
-    <p><a href="/">Volver al inicio</a></p>
+    <!-- Contenedor principal -->
+    <div class="contenedor-contacto">
+      <h1>Contacto</h1>
+      <p>¿Tienes alguna pregunta o necesitas ayuda? Estamos aquí para ayudarte.</p>
+      
+      <!-- Formulario de contacto -->
+      <form action="https://formspree.io/f/mjvnqgqz" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required />
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="asunto">Asunto:</label>
+        <input type="text" id="asunto" name="asunto" required />
+
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" required></textarea>
+
+        <button type="submit">Enviar mensaje</button>
+      </form>
+
+      <div class="info-contacto">
+        <p>También puedes contactarnos directamente:</p>
+        <p>Envíanos un correo a: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a></p>
+        <p>Llámanos al: <a href="tel:+56958576799">958576799</a></p>
+      </div>
+
+      <a href="/" class="boton-volver">Volver al inicio</a>
+    </div>
   </body>
 </html>

@@ -9,30 +9,28 @@ const apiKey = process.env.SERPAPI_KEY || "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b1
 app.use(cors());
 app.use(express.static("public"));
 
-app.get("/buscar", async (req, res) => {
-  const consulta = req.query.q;
-  if (!consulta) {
-    return res.json({ respuesta: "Por favor, ingresa un término de búsqueda." });
-  }
+// Lista de ferreterías locales de Antofagasta
+const ferreteriasLocales = [
+  "Ferretería San Carlos",
+  "Comercializadora Central",
+  "Ferretería Prat",
+  "Tienda Würth Antofagasta",
+  "Construmart Antofagasta",
+  "Sodimac Homecenter Mall Plaza Antofagasta",
+  "Planchacor Antofagasta",
+  "Ferretería Antofagasta",
+  "Ferretería Comerbas",
+  "Ferretería VCA",
+  "Gatica Hermanos",
+];
 
-  const tiendasPermitidas = [
-    "Sodimac Antofagasta",
-    "Construmart Antofagasta",
-    "Easy Antofagasta",
-    "MTS Antofagasta",
-    "Ferretería Prat",
-    "Imperial Antofagasta",
-    "Construmart",
-    "Sodimac",
-    "Easy",
-    "Homecenter Antofagasta"
-  ];
-
+// Función para buscar productos en Google Shopping
+async function buscarProductos(query) {
   try {
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
-        q: consulta + " Antofagasta",
+        q: query + " Antofagasta", // Siempre busca en Antofagasta
         hl: "es",
         gl: "cl",
         location: "Antofagasta, Chile",
@@ -42,20 +40,36 @@ app.get("/buscar", async (req, res) => {
 
     let resultados = response.data?.shopping_results || [];
 
-    if (resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
-    }
-
-    // Filtrar solo tiendas locales y evitar errores con undefined
+    // Filtrar solo tiendas locales
     resultados = resultados.filter((item) =>
-      tiendasPermitidas.some((tienda) => item.source?.toLowerCase().includes(tienda.toLowerCase()))
+      ferreteriasLocales.some((tienda) =>
+        item.source?.toLowerCase().includes(tienda.toLowerCase())
+      )
     );
+
+    return resultados;
+  } catch (error) {
+    console.error("Error al buscar productos:", error.message);
+    throw error;
+  }
+}
+
+// Ruta para buscar productos
+app.get("/buscar", async (req, res) => {
+  const consulta = req.query.q;
+
+  if (!consulta) {
+    return res.json({ respuesta: "Por favor, ingresa un término de búsqueda." });
+  }
+
+  try {
+    const resultados = await buscarProductos(consulta);
 
     if (resultados.length === 0) {
       return res.json({ respuesta: "No se encontraron productos en tiendas locales de Antofagasta." });
     }
 
-    let mensaje = "<strong>Resultados encontrados:</strong><br>";
+    let mensaje = "<strong>Resultados encontrados en Antofagasta:</strong><br>";
     resultados.slice(0, 10).forEach((item) => {
       mensaje += `
         <div class="producto">

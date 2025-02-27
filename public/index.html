@@ -226,7 +226,7 @@
           const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
           const data = await response.json();
 
-          if (data.respuesta.length === 0) {
+          if (!data.respuesta || data.respuesta.length === 0) {
             resultados.innerHTML = '<p>No se encontraron resultados.</p>';
             return;
           }

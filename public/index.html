@@ -13,7 +13,7 @@
       }
 
       body {
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: black;
         display: flex;
         flex-direction: column;
@@ -21,11 +21,10 @@
         min-height: 100vh;
         position: relative;
         text-align: center;
-        padding-bottom: 100px; /* Deja espacio para el footer */
-        margin-bottom: 0; /* Evita margen extra al fondo */
+        padding-bottom: 100px;
       }
 
-      /* Fondo con logo en opacidad ajustada */
+      /* Fondo con logo */
       body::before {
         content: "";
         position: absolute;
@@ -66,7 +65,7 @@
         transform: scale(1.1);
       }
 
-      /* Contenedor principal centrado y responsivo */
+      /* Contenedor principal */
       .contenedor {
         background-color: white;
         padding: 30px;
@@ -74,10 +73,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 90%;
-        margin-top: 220px; /* Posicionado a 220px del header */
+        margin-top: 220px;
         text-align: center;
         animation: fadeIn 1s ease-in-out;
-        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
+        z-index: 5;
       }
 
       @keyframes fadeIn {
@@ -86,133 +85,145 @@
       }
 
       h1 {
-        font-size: 28px;
+        font-size: 24px;
         color: #333;
         margin-bottom: 20px;
-        text-align: center;
       }
 
+      /* Campo de búsqueda */
       #user-input {
         width: calc(100% - 24px);
-        padding: 15px;
+        padding: 12px;
         margin-bottom: 16px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        font-size: 18px; /* Texto más grande */
+        font-size: 16px;
         text-align: center;
       }
 
-      #user-input::placeholder {
-        text-align: center;
-      }
-
+      /* Botón de búsqueda */
       button {
-        background-color: #FF6F00; /* Naranja */
+        background-color: #4CAF50;
         color: white;
         border: none;
-        padding: 15px;
+        padding: 12px;
         width: 100%;
         border-radius: 8px;
         cursor: pointer;
         transition: transform 0.2s, background-color 0.2s;
-        font-size: 18px; /* Texto más grande */
+        font-size: 16px;
         font-weight: bold;
       }
 
       button:hover {
-        background-color: #E65100; /* Naranja más oscuro */
         transform: scale(1.05);
+        background-color: #45a049;
       }
 
-      #loading {
-        display: none;
-        margin-top: 10px;
-        font-size: 16px;
+      /* Resultados */
+      #resultados {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        margin: 20px auto;
+        overflow: hidden;
+      }
+
+      .resultados-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        padding: 10px 0;
+      }
+
+      .resultado {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        padding: 20px;
+        margin: 0 10px;
+        min-width: 250px;
+        text-align: center;
+        flex: 0 0 auto;
+      }
+
+      .resultado h3 {
         color: #333;
+        margin-bottom: 10px;
+        font-size: 18px;
       }
 
-      #busquedas-recientes {
-        margin-top: 10px;
-        font-size: 14px;
+      .resultado .ferreteria {
         color: #666;
-      }
-
-      #busquedas-recientes a {
-        color: #1a73e8;
-        text-decoration: none;
-        margin: 0 5px;
-      }
-
-      #busquedas-recientes a:hover {
-        text-decoration: underline;
-      }
-
-      #chat-box {
-        margin-top: 16px;
-        text-align: left;
-      }
-
-      .producto {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 10px;
-        animation: fadeIn 0.5s ease-in-out;
+        font-size: 14px;
+        margin-bottom: 10px;
       }
 
       .precio {
         color: green;
         font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 15px;
       }
 
       .ver-producto {
         display: inline-block;
-        margin-top: 10px;
         text-decoration: none;
-        background-color: #4CAF50;
-        color: white !important;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 14px;
+        color: #1a73e8;
+        font-weight: 500;
+        transition: transform 0.2s;
       }
 
       .ver-producto:hover {
-        background-color: #45a049;
+        text-decoration: underline;
       }
 
-      /* Ajustes responsivos */
-      @media (max-width: 600px) {
-        .contenedor {
-          padding: 20px;
-          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
-        }
-        h1 {
-          font-size: 24px;
-          margin-bottom: 16px;
-        }
-        #user-input {
-          font-size: 16px;
-          padding: 12px;
-        }
-        button {
-          font-size: 16px;
-          padding: 12px;
-        }
+      /* Flechas de navegación */
+      .flecha-izquierda, .flecha-derecha {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        font-size: 24px;
+        z-index: 10;
+        transition: background-color 0.3s, opacity 0.3s;
+        opacity: 0;
+        pointer-events: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .flecha-izquierda {
+        left: 10px;
+      }
+
+      .flecha-derecha {
+        right: 10px;
+      }
+
+      .flecha-izquierda:hover, .flecha-derecha:hover {
+        background-color: rgba(255, 255, 255, 1);
+      }
+
+      .flecha-izquierda.visible, .flecha-derecha.visible {
+        opacity: 1;
+        pointer-events: auto;
       }
 
       /* FOOTER */
       footer {
         width: 100%;
-        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
-        color: #333; /* Texto oscuro para mejor contraste */
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #333;
         text-align: center;
         padding: 20px;
-        position: fixed; /* Fijo al pie de página */
+        position: fixed;
         bottom: 0;
         left: 0;
-        z-index: 1; /* Asegura que el footer esté sobre el fondo */
-        border-top: 1px solid #ddd; /* Línea superior sutil */
+        border-top: 1px solid #ddd;
       }
 
       .footer-content {
@@ -221,27 +232,28 @@
       }
 
       .footer-link {
-        color: #333; /* Color del enlace igual al texto */
+        color: #333;
         text-decoration: none;
       }
 
       .footer-link:hover {
-        text-decoration: underline; /* Subrayado al hacer hover */
+        text-decoration: underline;
       }
 
-      .footer-socials {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-      }
-
-      .footer-socials a {
-        margin: 0 15px;
-        transition: transform 0.2s;
-      }
-
-      .footer-socials a:hover {
-        transform: scale(1.1); /* Efecto de escala al hacer hover */
+      @media (max-width: 600px) {
+        .contenedor {
+          padding: 20px;
+          margin-top: 150px;
+        }
+        
+        .resultado {
+          min-width: 220px;
+        }
+        
+        .flecha-izquierda, .flecha-derecha {
+          padding: 8px;
+          font-size: 20px;
+        }
       }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -258,18 +270,17 @@
     <!-- Contenedor principal -->
     <div class="contenedor">
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" list="sugerencias" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
-      <datalist id="sugerencias">
-        <option value="Cemento 25 kg">
-        <option value="Clavos 2 pulgadas">
-        <option value="Pintura exterior">
-        <option value="Tornillos">
-        <option value="Ladrillos">
-      </datalist>
+      <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
       <button onclick="buscarMaterial()">Buscar Precios</button>
-      <div id="loading">Buscando...</div>
-      <div id="busquedas-recientes"></div>
-      <div id="chat-box"></div>
+      
+      <!-- Resultados -->
+      <div id="resultados">
+        <div class="flecha-izquierda" onclick="moverResultados(-1)">&#10094;</div>
+        <div class="resultados-container">
+          <!-- Los resultados se cargarán dinámicamente aquí -->
+        </div>
+        <div class="flecha-derecha" onclick="moverResultados(1)">&#10095;</div>
+      </div>
     </div>
 
     <!-- FOOTER -->
@@ -278,65 +289,66 @@
         <p><strong>ENR</strong> - Cotizador de Materiales</p>
         <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
         <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
-        <div class="footer-socials">
-          <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
-          </a>
-        </div>
       </div>
     </footer>
 
     <script>
-      const userInput = document.getElementById('user-input');
-      const chatBox = document.getElementById('chat-box');
-      const loading = document.getElementById('loading');
-      const busquedasRecientes = document.getElementById('busquedas-recientes');
-
-      // Guardar búsqueda en localStorage
-      function guardarBusqueda(consulta) {
-        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedas = [consulta, ...busquedas].slice(0, 5); // Guardar las últimas 5
-        localStorage.setItem('busquedas', JSON.stringify(busquedas));
-        mostrarBusquedasRecientes();
-      }
-
-      // Mostrar búsquedas recientes
-      function mostrarBusquedasRecientes() {
-        const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedasRecientes.innerHTML = busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
-      }
-
-      // Llamar a la función al cargar la página
-      mostrarBusquedasRecientes();
+      let posicionActual = 0;
+      const resultadosPorPagina = 3;
 
       async function buscarMaterial() {
-        const consulta = userInput.value.trim();
-        if (consulta === '') return;
+        const userInput = document.getElementById('user-input').value.trim();
+        const resultadosContainer = document.querySelector('.resultados-container');
+        const flechaIzquierda = document.querySelector('.flecha-izquierda');
+        const flechaDerecha = document.querySelector('.flecha-derecha');
 
-        loading.style.display = 'block';
-        chatBox.innerHTML = '';
+        if (!userInput) return;
 
-        try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
-          const data = await response.json();
+        // Simulación de resultados (reemplazar con tu lógica real)
+        const resultadosSimulados = [
+          { nombre: "Cemento Melón 25kg", precio: "$12.990", ferreteria: "Construmart", link: "#" },
+          { nombre: "Plancha OSB 15mm", precio: "$18.500", ferreteria: "Sodimac", link: "#" },
+          { nombre: "Ladrillos Fiscal 6h", precio: "$1.200/unidad", ferreteria: "Ferretería Prat", link: "#" },
+          { nombre: "Pintura Latex 4L", precio: "$25.990", ferreteria: "Easy", link: "#" },
+          { nombre: "Clavos 2.5\"", precio: "$8.990/kg", ferreteria: "Ferretería San Carlos", link: "#" }
+        ];
 
-          chatBox.innerHTML = data.respuesta;
-          guardarBusqueda(consulta);
-        } catch (error) {
-          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
-          console.error("Error en la petición:", error);
-        } finally {
-          loading.style.display = 'none';
+        mostrarResultados(resultadosSimulados);
+
+        // Mostrar flechas si hay más resultados de los que caben en la pantalla
+        if (resultadosSimulados.length > resultadosPorPagina) {
+          flechaIzquierda.classList.add('visible');
+          flechaDerecha.classList.add('visible');
+        } else {
+          flechaIzquierda.classList.remove('visible');
+          flechaDerecha.classList.remove('visible');
         }
       }
 
-      // Función para buscar desde el historial
-      function buscar(consulta) {
-        userInput.value = consulta;
-        buscarMaterial();
+      function mostrarResultados(resultados) {
+        const container = document.querySelector('.resultados-container');
+        container.innerHTML = resultados.map(item => `
+          <div class="resultado">
+            <h3>${item.nombre}</h3>
+            <p class="ferreteria">${item.ferreteria}</p>
+            <p class="precio">${item.precio}</p>
+            <a href="${item.link}" class="ver-producto" target="_blank">Ver producto</a>
+          </div>
+        `).join('');
+      }
+
+      function moverResultados(direccion) {
+        const container = document.querySelector('.resultados-container');
+        const resultados = document.querySelectorAll('.resultado');
+        const anchoResultado = resultados[0].offsetWidth + 20;
+        
+        posicionActual += direccion;
+        const maxPosicion = resultados.length - resultadosPorPagina;
+        
+        if (posicionActual < 0) posicionActual = 0;
+        if (posicionActual > maxPosicion) posicionActual = maxPosicion;
+
+        container.style.transform = `translateX(-${posicionActual * anchoResultado}px)`;
       }
     </script>
   </body>

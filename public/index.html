@@ -1,355 +1,68 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cotizador de Materiales - Antofagasta</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Materiales - Antofagasta</title>
     <style>
-      /* Reset global */
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: black;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        position: relative;
-        text-align: center;
-        padding-bottom: 100px;
-      }
-
-      /* Fondo con logo */
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url("https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/public/logo") no-repeat center center;
-        background-size: contain;
-        opacity: 0.2;
-        z-index: -1;
-      }
-
-      /* HEADER */
-      .header {
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 15px 0;
-        text-align: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        border-bottom: 1px solid #444;
-      }
-
-      .header nav a {
-        color: white;
-        text-decoration: none;
-        margin: 0 15px;
-        font-size: 18px;
-        font-weight: bold;
-        transition: color 0.3s, transform 0.2s;
-      }
-
-      .header nav a:hover {
-        color: #4CAF50;
-        transform: scale(1.1);
-      }
-
-      /* Contenedor principal */
-      .contenedor {
-        background-color: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        width: 90%;
-        margin-top: 220px;
-        text-align: center;
-        animation: fadeIn 1s ease-in-out;
-        z-index: 5;
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
-
-      h1 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
-      }
-
-      /* Campo de búsqueda */
-      #user-input {
-        width: calc(100% - 24px);
-        padding: 12px;
-        margin-bottom: 16px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-        text-align: center;
-      }
-
-      /* Botón de búsqueda */
-      button {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 12px;
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s, background-color 0.2s;
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      button:hover {
-        transform: scale(1.05);
-        background-color: #45a049;
-      }
-
-      /* Resultados */
-      #resultados {
-        position: relative;
-        width: 100%;
-        max-width: 800px;
-        margin: 20px auto;
-        overflow: hidden;
-      }
-
-      .resultados-container {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        padding: 10px 0;
-      }
-
-      .resultado {
-        background-color: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        padding: 20px;
-        margin: 0 10px;
-        min-width: 250px;
-        text-align: center;
-        flex: 0 0 auto;
-      }
-
-      .resultado h3 {
-        color: #333;
-        margin-bottom: 10px;
-        font-size: 18px;
-      }
-
-      .resultado .ferreteria {
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 10px;
-      }
-
-      .precio {
-        color: green;
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 15px;
-      }
-
-      .ver-producto {
-        display: inline-block;
-        text-decoration: none;
-        color: #1a73e8;
-        font-weight: 500;
-        transition: transform 0.2s;
-      }
-
-      .ver-producto:hover {
-        text-decoration: underline;
-      }
-
-      /* Flechas de navegación */
-      .flecha-izquierda, .flecha-derecha {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(255, 255, 255, 0.9);
-        color: #333;
-        border: none;
-        padding: 10px;
-        cursor: pointer;
-        border-radius: 50%;
-        font-size: 24px;
-        z-index: 10;
-        transition: background-color 0.3s, opacity 0.3s;
-        opacity: 0;
-        pointer-events: none;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .flecha-izquierda {
-        left: 10px;
-      }
-
-      .flecha-derecha {
-        right: 10px;
-      }
-
-      .flecha-izquierda:hover, .flecha-derecha:hover {
-        background-color: rgba(255, 255, 255, 1);
-      }
-
-      .flecha-izquierda.visible, .flecha-derecha.visible {
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      /* FOOTER */
-      footer {
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.8);
-        color: #333;
-        text-align: center;
-        padding: 20px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        border-top: 1px solid #ddd;
-      }
-
-      .footer-content {
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .footer-link {
-        color: #333;
-        text-decoration: none;
-      }
-
-      .footer-link:hover {
-        text-decoration: underline;
-      }
-
-      @media (max-width: 600px) {
-        .contenedor {
-          padding: 20px;
-          margin-top: 150px;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
-        
-        .resultado {
-          min-width: 220px;
+        .producto {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: 250px;
+            text-align: left;
         }
-        
-        .flecha-izquierda, .flecha-derecha {
-          padding: 8px;
-          font-size: 20px;
+        .precio {
+            font-weight: bold;
+            color: green;
         }
-      }
+        .ver-producto {
+            display: block;
+            margin-top: 5px;
+            text-decoration: none;
+            color: blue;
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <!-- HEADER -->
-    <header class="header">
-      <nav class="nav">
-        <a href="#" onclick="window.location.reload(); return false;">Inicio</a>
-        <a href="contacto.html">Contacto</a>
-      </nav>
-    </header>
-
-    <!-- Contenedor principal -->
-    <div class="contenedor">
-      <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
-      <button onclick="buscarMaterial()">Buscar Precios</button>
-      
-      <!-- Resultados -->
-      <div id="resultados">
-        <div class="flecha-izquierda" onclick="moverResultados(-1)">&#10094;</div>
-        <div class="resultados-container">
-          <!-- Los resultados se cargarán dinámicamente aquí -->
-        </div>
-        <div class="flecha-derecha" onclick="moverResultados(1)">&#10095;</div>
-      </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="footer-content">
-        <p><strong>ENR</strong> - Cotizador de Materiales</p>
-        <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-        <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
-      </div>
-    </footer>
+</head>
+<body>
+    <h1>Buscador de Materiales en Antofagasta</h1>
+    <input type="text" id="buscar" placeholder="Ingresa el producto">
+    <button onclick="buscarProducto()">Buscar</button>
+    
+    <div id="resultados"></div>
 
     <script>
-      let posicionActual = 0;
-      const resultadosPorPagina = 3;
+        async function buscarProducto() {
+            const consulta = document.getElementById("buscar").value.trim();
+            const resultadosDiv = document.getElementById("resultados");
+            
+            if (!consulta) {
+                alert("Por favor, ingresa un término de búsqueda.");
+                return;
+            }
 
-      async function buscarMaterial() {
-        const userInput = document.getElementById('user-input').value.trim();
-        const resultadosContainer = document.querySelector('.resultados-container');
-        const flechaIzquierda = document.querySelector('.flecha-izquierda');
-        const flechaDerecha = document.querySelector('.flecha-derecha');
+            // Limpiar resultados anteriores
+            resultadosDiv.innerHTML = "Buscando...";
 
-        if (!userInput) return;
+            try {
+                const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
+                const data = await response.json();
 
-        // Simulación de resultados (reemplazar con tu lógica real)
-        const resultadosSimulados = [
-          { nombre: "Cemento Melón 25kg", precio: "$12.990", ferreteria: "Construmart", link: "#" },
-          { nombre: "Plancha OSB 15mm", precio: "$18.500", ferreteria: "Sodimac", link: "#" },
-          { nombre: "Ladrillos Fiscal 6h", precio: "$1.200/unidad", ferreteria: "Ferretería Prat", link: "#" },
-          { nombre: "Pintura Latex 4L", precio: "$25.990", ferreteria: "Easy", link: "#" },
-          { nombre: "Clavos 2.5\"", precio: "$8.990/kg", ferreteria: "Ferretería San Carlos", link: "#" }
-        ];
-
-        mostrarResultados(resultadosSimulados);
-
-        // Mostrar flechas si hay más resultados de los que caben en la pantalla
-        if (resultadosSimulados.length > resultadosPorPagina) {
-          flechaIzquierda.classList.add('visible');
-          flechaDerecha.classList.add('visible');
-        } else {
-          flechaIzquierda.classList.remove('visible');
-          flechaDerecha.classList.remove('visible');
+                if (data.respuesta) {
+                    resultadosDiv.innerHTML = data.respuesta;
+                } else {
+                    resultadosDiv.innerHTML = "No se encontraron productos.";
+                }
+            } catch (error) {
+                resultadosDiv.innerHTML = "Error al buscar productos.";
+                console.error("Error:", error);
+            }
         }
-      }
-
-      function mostrarResultados(resultados) {
-        const container = document.querySelector('.resultados-container');
-        container.innerHTML = resultados.map(item => `
-          <div class="resultado">
-            <h3>${item.nombre}</h3>
-            <p class="ferreteria">${item.ferreteria}</p>
-            <p class="precio">${item.precio}</p>
-            <a href="${item.link}" class="ver-producto" target="_blank">Ver producto</a>
-          </div>
-        `).join('');
-      }
-
-      function moverResultados(direccion) {
-        const container = document.querySelector('.resultados-container');
-        const resultados = document.querySelectorAll('.resultado');
-        const anchoResultado = resultados[0].offsetWidth + 20;
-        
-        posicionActual += direccion;
-        const maxPosicion = resultados.length - resultadosPorPagina;
-        
-        if (posicionActual < 0) posicionActual = 0;
-        if (posicionActual > maxPosicion) posicionActual = maxPosicion;
-
-        container.style.transform = `translateX(-${posicionActual * anchoResultado}px)`;
-      }
     </script>
-  </body>
+</body>
 </html>

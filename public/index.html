@@ -94,11 +94,11 @@
 
       #user-input {
         width: calc(100% - 24px);
-        padding: 15px;
+        padding: 12px;
         margin-bottom: 16px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        font-size: 18px; /* Texto más grande */
+        font-size: 16px;
         text-align: center;
       }
 
@@ -110,12 +110,12 @@
         background-color: #4CAF50;
         color: white;
         border: none;
-        padding: 15px;
+        padding: 12px;
         width: 100%;
         border-radius: 8px;
         cursor: pointer;
         transition: transform 0.2s, background-color 0.2s;
-        font-size: 18px; /* Texto más grande */
+        font-size: 16px;
         font-weight: bold;
       }
 
@@ -126,15 +126,14 @@
 
       #chat-box {
         margin-top: 16px;
-        text-align: left;
       }
 
       .producto {
-        background-color: #f8f9fa;
+        background-color: #fafafa;
         border: 1px solid #ddd;
-        padding: 15px;
+        padding: 8px;
         border-radius: 8px;
-        margin-top: 10px;
+        margin-top: 8px;
       }
 
       .precio {
@@ -144,29 +143,13 @@
 
       .ver-producto {
         display: inline-block;
-        margin-top: 10px;
+        margin-top: 4px;
         text-decoration: none;
-        background-color: #4CAF50;
-        color: white !important;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 14px;
+        color: #1a73e8;
       }
 
       .ver-producto:hover {
-        background-color: #45a049;
-      }
-
-      .sugerencias {
-        text-align: left;
-        margin: 15px;
-        font-size: 16px;
-        color: #666;
-      }
-
-      .sugerencias li {
-        margin: 10px 0;
-        list-style-type: "👉 ";
+        text-decoration: underline;
       }
 
       /* Ajustes responsivos */
@@ -180,12 +163,12 @@
           margin-bottom: 16px;
         }
         #user-input {
-          font-size: 16px;
-          padding: 12px;
+          font-size: 14px;
+          padding: 10px;
         }
         button {
-          font-size: 16px;
-          padding: 12px;
+          font-size: 14px;
+          padding: 10px;
         }
       }
 
@@ -237,7 +220,7 @@
     <div class="contenedor">
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
       <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
-      <button onclick="buscarMaterial()">Buscar Precios</button>
+      <button onclick="sendMessage()">Buscar Precios</button>
       <div id="chat-box"></div>
     </div>
 
@@ -257,7 +240,7 @@
     </footer>
 
     <script>
-      async function buscarMaterial() {
+      async function sendMessage() {
         const userInput = document.getElementById('user-input').value;
         const chatBox = document.getElementById('chat-box');
 
@@ -269,15 +252,9 @@
           const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
           const data = await response.json();
 
-          chatBox.innerHTML = data.respuesta;
+          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
         } catch (error) {
-          chatBox.innerHTML = `
-            <p>⚠️ Error temporal. Estos son productos comunes en Antofagasta:</p>
-            <div class="producto">
-              <p><strong>Cemento Melón 25 kg</strong> ($12.990)</p>
-              <p><strong>Cemento Polpaico 25 kg</strong> ($11.500)</p>
-            </div>
-          `;
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
           console.error("Error en la petición:", error);
         }
       }

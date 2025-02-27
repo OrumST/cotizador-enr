@@ -1,68 +1,343 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de Materiales - Antofagasta</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cotizador de Materiales - Antofagasta</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+      /* Reset global */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        position: relative;
+        text-align: center;
+        padding-bottom: 100px; /* Deja espacio para el footer */
+        margin-bottom: 0; /* Evita margen extra al fondo */
+      }
+
+      /* Fondo con logo en opacidad ajustada */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/public/logo") no-repeat center center;
+        background-size: contain;
+        opacity: 0.2;
+        z-index: -1;
+      }
+
+      /* HEADER */
+      .header {
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 15px 0;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        border-bottom: 1px solid #444;
+      }
+
+      .header nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 18px;
+        font-weight: bold;
+        transition: color 0.3s, transform 0.2s;
+      }
+
+      .header nav a:hover {
+        color: #4CAF50;
+        transform: scale(1.1);
+      }
+
+      /* Contenedor principal centrado y responsivo */
+      .contenedor {
+        background-color: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        width: 90%;
+        margin-top: 220px; /* Posicionado a 220px del header */
+        text-align: center;
+        animation: fadeIn 1s ease-in-out;
+        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+      }
+
+      h1 {
+        font-size: 28px;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      #user-input {
+        width: calc(100% - 24px);
+        padding: 15px;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 18px; /* Texto más grande */
+        text-align: center;
+      }
+
+      #user-input::placeholder {
+        text-align: center;
+      }
+
+      button {
+        background-color: #FF6F00; /* Naranja */
+        color: white;
+        border: none;
+        padding: 15px;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.2s, background-color 0.2s;
+        font-size: 18px; /* Texto más grande */
+        font-weight: bold;
+      }
+
+      button:hover {
+        background-color: #E65100; /* Naranja más oscuro */
+        transform: scale(1.05);
+      }
+
+      #loading {
+        display: none;
+        margin-top: 10px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      #busquedas-recientes {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      #busquedas-recientes a {
+        color: #1a73e8;
+        text-decoration: none;
+        margin: 0 5px;
+      }
+
+      #busquedas-recientes a:hover {
+        text-decoration: underline;
+      }
+
+      #chat-box {
+        margin-top: 16px;
+        text-align: left;
+      }
+
+      .producto {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .precio {
+        color: green;
+        font-weight: bold;
+      }
+
+      .ver-producto {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white !important;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      .ver-producto:hover {
+        background-color: #45a049;
+      }
+
+      /* Ajustes responsivos */
+      @media (max-width: 600px) {
+        .contenedor {
+          padding: 20px;
+          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
         }
-        .producto {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px;
-            display: inline-block;
-            width: 250px;
-            text-align: left;
+        h1 {
+          font-size: 24px;
+          margin-bottom: 16px;
         }
-        .precio {
-            font-weight: bold;
-            color: green;
+        #user-input {
+          font-size: 16px;
+          padding: 12px;
         }
-        .ver-producto {
-            display: block;
-            margin-top: 5px;
-            text-decoration: none;
-            color: blue;
+        button {
+          font-size: 16px;
+          padding: 12px;
         }
+      }
+
+      /* FOOTER */
+      footer {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+        color: #333; /* Texto oscuro para mejor contraste */
+        text-align: center;
+        padding: 20px;
+        position: fixed; /* Fijo al pie de página */
+        bottom: 0;
+        left: 0;
+        z-index: 1; /* Asegura que el footer esté sobre el fondo */
+        border-top: 1px solid #ddd; /* Línea superior sutil */
+      }
+
+      .footer-content {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .footer-link {
+        color: #333; /* Color del enlace igual al texto */
+        text-decoration: none;
+      }
+
+      .footer-link:hover {
+        text-decoration: underline; /* Subrayado al hacer hover */
+      }
+
+      .footer-socials {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .footer-socials a {
+        margin: 0 15px;
+        transition: transform 0.2s;
+      }
+
+      .footer-socials a:hover {
+        transform: scale(1.1); /* Efecto de escala al hacer hover */
+      }
     </style>
-</head>
-<body>
-    <h1>Buscador de Materiales en Antofagasta</h1>
-    <input type="text" id="buscar" placeholder="Ingresa el producto">
-    <button onclick="buscarProducto()">Buscar</button>
-    
-    <div id="resultados"></div>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header class="header">
+      <nav class="nav">
+        <a href="#" onclick="window.location.reload(); return false;">Inicio</a>
+        <a href="contacto.html">Contacto</a>
+      </nav>
+    </header>
+
+    <!-- Contenedor principal -->
+    <div class="contenedor">
+      <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
+      <input type="text" id="user-input" list="sugerencias" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
+      <datalist id="sugerencias">
+        <option value="Cemento 25 kg">
+        <option value="Clavos 2 pulgadas">
+        <option value="Pintura exterior">
+        <option value="Tornillos">
+        <option value="Ladrillos">
+      </datalist>
+      <button onclick="buscarMaterial()">Buscar Precios</button>
+      <div id="loading">Buscando...</div>
+      <div id="busquedas-recientes"></div>
+      <div id="chat-box"></div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-content">
+        <p><strong>ENR</strong> - Cotizador de Materiales</p>
+        <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+        <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
+            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
+            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
+          </a>
+        </div>
+      </div>
+    </footer>
 
     <script>
-        async function buscarProducto() {
-            const consulta = document.getElementById("buscar").value.trim();
-            const resultadosDiv = document.getElementById("resultados");
-            
-            if (!consulta) {
-                alert("Por favor, ingresa un término de búsqueda.");
-                return;
-            }
+      const userInput = document.getElementById('user-input');
+      const chatBox = document.getElementById('chat-box');
+      const loading = document.getElementById('loading');
+      const busquedasRecientes = document.getElementById('busquedas-recientes');
 
-            // Limpiar resultados anteriores
-            resultadosDiv.innerHTML = "Buscando...";
+      // Guardar búsqueda en localStorage
+      function guardarBusqueda(consulta) {
+        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+        busquedas = [consulta, ...busquedas].slice(0, 5); // Guardar las últimas 5
+        localStorage.setItem('busquedas', JSON.stringify(busquedas));
+        mostrarBusquedasRecientes();
+      }
 
-            try {
-                const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
-                const data = await response.json();
+      // Mostrar búsquedas recientes
+      function mostrarBusquedasRecientes() {
+        const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+        busquedasRecientes.innerHTML = busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
+      }
 
-                if (data.respuesta) {
-                    resultadosDiv.innerHTML = data.respuesta;
-                } else {
-                    resultadosDiv.innerHTML = "No se encontraron productos.";
-                }
-            } catch (error) {
-                resultadosDiv.innerHTML = "Error al buscar productos.";
-                console.error("Error:", error);
-            }
+      // Llamar a la función al cargar la página
+      mostrarBusquedasRecientes();
+
+      async function buscarMaterial() {
+        const consulta = userInput.value.trim();
+        if (consulta === '') return;
+
+        loading.style.display = 'block';
+        chatBox.innerHTML = '';
+
+        try {
+          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
+          const data = await response.json();
+
+          chatBox.innerHTML = data.respuesta;
+          guardarBusqueda(consulta);
+        } catch (error) {
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
+          console.error("Error en la petición:", error);
+        } finally {
+          loading.style.display = 'none';
         }
+      }
+
+      // Función para buscar desde el historial
+      function buscar(consulta) {
+        userInput.value = consulta;
+        buscarMaterial();
+      }
     </script>
-</body>
+  </body>
 </html>

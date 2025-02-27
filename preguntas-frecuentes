@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preguntas Frecuentes - ENR Cotizador de Materiales</title>
+    <style>
+      /* Reset global */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        text-align: center;
+        color: #333;
+      }
+
+      header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
+      header nav {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      header nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      header nav a:hover {
+        background-color: #ff6f00;
+      }
+
+      main {
+        margin-top: 100px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .contenedor {
+        background-color: white;
+        padding: 40px;
+        max-width: 800px;
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+        text-align: left;
+        overflow: hidden;
+      }
+
+      .faq-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #333;
+      }
+
+      .accordion {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .accordion-item {
+        background-color: #f7f7f7;
+        margin: 10px 0;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .accordion-item:hover {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .accordion-title {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 500;
+        background-color: #ff6f00;
+        color: white;
+        border: none;
+        text-align: left;
+        width: 100%;
+        transition: background-color 0.3s;
+      }
+
+      .accordion-title:hover {
+        background-color: #e65c00;
+      }
+
+      .accordion-content {
+        display: none;
+        padding: 15px;
+        font-size: 16px;
+        background-color: #f7f7f7;
+        color: #555;
+        line-height: 1.6;
+        border-top: 1px solid #ddd;
+      }
+
+      .accordion-icon {
+        transition: transform 0.3s ease;
+      }
+
+      .accordion-item.open .accordion-content {
+        display: block;
+      }
+
+      .accordion-item.open .accordion-icon {
+        transform: rotate(90deg);
+      }
+
+      footer {
+        width: 100%;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      footer a {
+        color: #ff6f00;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 600px) {
+        .contenedor {
+          padding: 20px;
+        }
+
+        .faq-title {
+          font-size: 20px;
+        }
+
+        .accordion-title {
+          font-size: 16px;
+        }
+
+        .accordion-content {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header con navegación -->
+    <header>
+      <nav>
+        <a href="/">Inicio</a>
+        <a href="/contacto">Contacto</a>
+      </nav>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+      <div class="contenedor">
+        <h2 class="faq-title">Preguntas Frecuentes</h2>
+
+        <ul class="accordion">
+          <li class="accordion-item">
+            <button class="accordion-title">
+              ¿Qué es ENR Cotizador de Materiales?
+              <span class="accordion-icon">►</span>
+            </button>
+            <div class="accordion-content">
+              <p>ENR es una plataforma que te ayuda a encontrar los mejores precios para materiales de construcción en Antofagasta. Mostramos las opciones más competitivas y te redirigimos a la tienda de tu elección para que puedas comprar directamente allí.</p>
+            </div>
+          </li>
+
+          <li class="accordion-item">
+            <button class="accordion-title">
+              ¿Puedo comprar directamente en ENR?
+              <span class="accordion-icon">►</span>
+            </button>
+            <div class="accordion-content">
+              <p>No, ENR no es una tienda en línea. Solo mostramos los mejores precios y opciones. Una vez que encuentres el material que deseas, serás redirigido a la página de la tienda para realizar tu compra.</p>
+            </div>
+          </li>
+
+          <li class="accordion-item">
+            <button class="accordion-title">
+              ¿Cómo se actualizan los precios?
+              <span class="accordion-icon">►</span>
+            </button>
+            <div class="accordion-content">
+              <p>Los precios que mostramos en ENR se actualizan regularmente, pero los cambios dependen de los proveedores de los materiales. Siempre recomendamos verificar los precios en la tienda antes de realizar la compra.</p>
+            </div>
+          </li>
+
+          <li class="accordion-item">
+            <button class="accordion-title">
+              ¿En qué tiendas puedo comprar los materiales?
+              <span class="accordion-icon">►</span>
+            </button>
+            <div class="accordion-content">
+              <p>ENR trabaja con varias tiendas locales y nacionales que ofrecen precios competitivos en materiales de construcción. Puedes ver la lista de tiendas en la página de cada producto.</p>
+            </div>
+          </li>
+
+          <li class="accordion-item">
+            <button class="accordion-title">
+              ¿ENR cobra alguna comisión por las compras?
+              <span class="accordion-icon">►</span>
+            </button>
+            <div class="accordion-content">
+              <p>No, ENR no cobra ninguna comisión por las compras realizadas a través de los enlaces. Nuestro objetivo es brindarte las mejores opciones para que puedas ahorrar en tus proyectos.</p>
+            </div>
+          </li>
+
+          <li class="accordion-item">
+            <button class="accordion-title">
+              ¿Cómo puedo contactar con ENR?
+              <span class="accordion-icon">►</span>
+            </button>
+            <div class="accordion-content">
+              <p>Si tienes alguna pregunta, puedes contactarnos a través de nuestro correo electrónico <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> o llamarnos al <strong>958576799</strong>.</p>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 ENR - Cotizador de Materiales. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+      // Script para gestionar el acordeón
+      const accordionItems = document.querySelectorAll('.accordion-item');
+
+      accordionItems.forEach(item => {
+        const button = item.querySelector('.accordion-title');
+        button.addEventListener('click', () => {
+          item.classList.toggle('open');
+        });
+      });
+    </script>
+  </body>
+</html>

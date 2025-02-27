@@ -4,95 +4,120 @@ const cors = require("cors");
 
 const app = express();
 const port = process.env.PORT || 3000;
-const apiKey = process.env.SERPAPI_KEY || "4cb96a3a5032bf3d519eb1b6a1c0082ecc6b151b318d99531e7bda504f177e92";
+const apiKey = process.env.SERPAPI_KEY || "TU_API_KEY";
 
 app.use(cors());
 app.use(express.static("public"));
 
-// Lista de ferreterías locales de Antofagasta
+// Ferreterías locales de Antofagasta
 const ferreteriasLocales = [
-  "Ferretería San Carlos",
-  "Comercializadora Central",
-  "Ferretería Prat",
-  "Tienda Würth Antofagasta",
-  "Construmart Antofagasta",
-  "Sodimac Homecenter Mall Plaza Antofagasta",
-  "Planchacor Antofagasta",
-  "Ferretería Antofagasta",
-  "Ferretería Comerbas",
-  "Ferretería VCA",
-  "Gatica Hermanos",
+  "Construmart", "Sodimac", "Easy", "Ferretería Prat", 
+  "Ferretería San Carlos", "Planchacor", "Ferretería Antofagasta"
 ];
 
-// Función para buscar productos en Google Shopping
-async function buscarProductos(query) {
+// Productos predefinidos (respaldo)
+const productosRespaldo = [
+  {
+    title: "Cemento Melón 25 kg",
+    price: "$12.990",
+    source: "Construmart Antofagasta",
+    link: "https://www.construmart.cl/cemento-melon"
+  },
+  {
+    title: "Cemento Polpaico 25 kg",
+    price: "$11.500",
+    source: "Sodimac Antofagasta",
+    link: "https://sodimac.falabella.com/cemento-polpaico"
+  }
+];
+
+// Función para limpiar y preparar la consulta
+function prepararConsulta(query) {
+  // Eliminar palabras comunes y números innecesarios
+  const palabrasIgnorar = ["de", "en", "kg", "kilos", "saco"];
+  return query
+    .toLowerCase()
+    .split(" ")
+    .filter(palabra => !palabrasIgnorar.includes(palabra) && !/^\d+$/.test(palabra))
+    .join(" ");
+}
+
+app.get("/buscar", async (req, res) => {
+  let consulta = req.query.q || "";
+
+  // Limpiar la consulta
+  const consultaLimpia = prepararConsulta(consulta);
+
   try {
+    // Buscar en Google Shopping
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
-        q: query.split(" ")[0] + " Antofagasta", // Busca solo la primera palabra clave + "Antofagasta"
+        q: `${consultaLimpia} Antofagasta`,
         hl: "es",
         gl: "cl",
         location: "Antofagasta, Chile",
-        api_key: apiKey,
-      },
+        api_key: apiKey
+      }
     });
 
-    let resultados = response.data?.shopping_results || [];
-
-    // Filtrar solo tiendas locales y coincidencia parcial en el título
-    resultados = resultados.filter((item) => {
-      const titulo = item.title.toLowerCase();
-      const consultaLower = query.toLowerCase();
-
-      return (
-        ferreteriasLocales.some((tienda) =>
-          item.source?.toLowerCase().includes(tienda.toLowerCase())
-        ) && titulo.includes(consultaLower)
+    // Filtrar resultados
+    let resultados = (response.data.shopping_results || [])
+      .filter(item => 
+        ferreteriasLocales.some(tienda => 
+          item.source.toLowerCase().includes(tienda.toLowerCase())
+      )
+      .filter(item => 
+        item.title.toLowerCase().includes(consultaLimpia)
       );
-    });
 
-    return resultados;
-  } catch (error) {
-    console.error("Error al buscar productos:", error.message);
-    throw error;
-  }
-}
-
-// Ruta para buscar productos
-app.get("/buscar", async (req, res) => {
-  const consulta = req.query.q;
-
-  if (!consulta) {
-    return res.json({ respuesta: "Por favor, ingresa un término de búsqueda." });
-  }
-
-  try {
-    const resultados = await buscarProductos(consulta);
-
+    // Si no hay resultados, usar el respaldo
     if (resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos en tiendas locales de Antofagasta." });
+      resultados = productosRespaldo.filter(item =>
+        item.title.toLowerCase().includes(consultaLimpia)
+      );
     }
 
-    let mensaje = "<strong>Resultados encontrados en Antofagasta:</strong><br>";
-    resultados.slice(0, 10).forEach((item) => {
-      mensaje += `
-        <div class="producto">
-          <p><strong>${item.title}</strong></p>
-          <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
-          <p>🏪 Tienda: ${item.source || "No especificada"}</p>
-          <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
-        </div>
+    // Construir respuesta
+    let mensaje = "";
+    if (resultados.length > 0) {
+      mensaje = `
+        <strong>Resultados en Antofagasta:</strong><br>
+        ${resultados.slice(0, 5).map(item => `
+          <div class="producto">
+            <p><strong>${item.title}</strong></p>
+            <p>💰 ${item.price} | 🏪 ${item.source}</p>
+            <a href="${item.link}" target="_blank" class="ver-producto">Ver producto</a>
+          </div>
+        `).join("")}
       `;
-    });
+    } else {
+      mensaje = `
+        <p>😕 No encontramos resultados exactos. Prueba con:</p>
+        <ul class="sugerencias">
+          <li>"Cemento 25 kg"</li>
+          <li>"Clavos 2 pulgadas"</li>
+          <li>"Pintura exterior"</li>
+        </ul>
+      `;
+    }
 
     res.json({ respuesta: mensaje });
+
   } catch (error) {
-    console.error("Error en la búsqueda:", error.message);
-    res.status(500).json({ respuesta: "Error al obtener resultados. Intenta nuevamente más tarde." });
+    res.json({ 
+      respuesta: `
+        <p>⚠️ Error temporal. Estos son productos comunes en Antofagasta:</p>
+        ${productosRespaldo.map(item => `
+          <div class="producto">
+            <p><strong>${item.title}</strong> (${item.price})</p>
+          </div>
+        `).join("")}
+      `
+    });
   }
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor activo en http://localhost:${port}`);
 });

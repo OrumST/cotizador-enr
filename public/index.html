@@ -21,8 +21,7 @@
         min-height: 100vh;
         position: relative;
         text-align: center;
-        padding-bottom: 100px; /* Deja espacio para el footer */
-        margin-bottom: 0; /* Evita margen extra al fondo */
+        padding-bottom: 120px; /* Espacio para el footer */
       }
 
       /* Fondo con logo en opacidad ajustada */
@@ -66,7 +65,7 @@
         transform: scale(1.1);
       }
 
-      /* Contenedor principal centrado y responsivo */
+      /* Contenedor principal */
       .contenedor {
         background-color: white;
         padding: 30px;
@@ -74,10 +73,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 600px;
         width: 90%;
-        margin-top: 220px; /* Posicionado a 220px del header */
+        margin-top: 220px;
         text-align: center;
         animation: fadeIn 1s ease-in-out;
-        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
+        z-index: 5;
       }
 
       @keyframes fadeIn {
@@ -89,7 +88,6 @@
         font-size: 28px;
         color: #333;
         margin-bottom: 20px;
-        text-align: center;
       }
 
       #user-input {
@@ -98,7 +96,7 @@
         margin-bottom: 16px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        font-size: 18px; /* Texto más grande */
+        font-size: 18px;
         text-align: center;
       }
 
@@ -107,7 +105,7 @@
       }
 
       button {
-        background-color: #FF6F00; /* Naranja */
+        background-color: #FF6F00;
         color: white;
         border: none;
         padding: 15px;
@@ -115,12 +113,12 @@
         border-radius: 8px;
         cursor: pointer;
         transition: transform 0.2s, background-color 0.2s;
-        font-size: 18px; /* Texto más grande */
+        font-size: 18px;
         font-weight: bold;
       }
 
       button:hover {
-        background-color: #E65100; /* Naranja más oscuro */
+        background-color: #E65100;
         transform: scale(1.05);
       }
 
@@ -181,38 +179,17 @@
         background-color: #45a049;
       }
 
-      /* Ajustes responsivos */
-      @media (max-width: 600px) {
-        .contenedor {
-          padding: 20px;
-          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
-        }
-        h1 {
-          font-size: 24px;
-          margin-bottom: 16px;
-        }
-        #user-input {
-          font-size: 16px;
-          padding: 12px;
-        }
-        button {
-          font-size: 16px;
-          padding: 12px;
-        }
-      }
-
       /* FOOTER */
       footer {
         width: 100%;
-        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
-        color: #333; /* Texto oscuro para mejor contraste */
-        text-align: center;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
         padding: 20px;
-        position: fixed; /* Fijo al pie de página */
+        position: fixed;
         bottom: 0;
         left: 0;
-        z-index: 1; /* Asegura que el footer esté sobre el fondo */
-        border-top: 1px solid #ddd; /* Línea superior sutil */
+        z-index: 1;
+        border-top: 1px solid #ddd;
       }
 
       .footer-content {
@@ -220,66 +197,93 @@
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         flex-wrap: wrap;
       }
 
       .footer-info {
         text-align: left;
         flex: 1;
-        margin-right: 20px;
+      }
+
+      .footer-info p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+
+      .footer-info strong {
+        font-size: 16px;
+        color: #333;
       }
 
       .footer-legal {
         text-align: right;
         flex: 1;
-        margin-left: 20px;
       }
 
-      .footer-link {
-        color: #333; /* Color del enlace igual al texto */
-        text-decoration: none;
-      }
-
-      .footer-link:hover {
-        text-decoration: underline; /* Subrayado al hacer hover */
-      }
-
-      .footer-socials {
-        margin-top: 10px;
-      }
-
-      .footer-socials a {
-        margin: 0 10px;
-        transition: transform 0.2s;
-      }
-
-      .footer-socials a:hover {
-        transform: scale(1.1); /* Efecto de escala al hacer hover */
-      }
-
-      .footer-section h4 {
-        margin-bottom: 8px;
+      .footer-legal h4 {
         font-size: 16px;
-        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
       }
 
-      .footer-section ul {
+      .footer-legal ul {
         list-style: none;
         padding: 0;
       }
 
-      .footer-section ul li {
+      .footer-legal ul li {
         margin: 5px 0;
       }
 
-      .footer-section ul li a {
+      .footer-legal ul li a {
         text-decoration: none;
         color: #333;
+        font-size: 14px;
+        transition: color 0.3s;
       }
 
-      .footer-section ul li a:hover {
-        text-decoration: underline;
+      .footer-legal ul li a:hover {
+        color: #FF6F00;
+      }
+
+      .footer-socials {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .footer-socials a {
+        color: #333;
+        text-decoration: none;
+        transition: transform 0.3s, color 0.3s;
+      }
+
+      .footer-socials a:hover {
+        color: #FF6F00;
+        transform: scale(1.1);
+      }
+
+      .footer-socials img {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .footer-info, .footer-legal {
+          text-align: center;
+          margin-bottom: 15px;
+        }
+
+        .footer-legal {
+          text-align: center;
+        }
       }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -309,14 +313,14 @@
         <!-- Información y contacto (izquierda) -->
         <div class="footer-info">
           <p><strong>ENR</strong> - Cotizador de Materiales</p>
-          <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-          <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+          <p>Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+          <p><a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
           <div class="footer-socials">
             <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
+              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" />
             </a>
             <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
+              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" />
             </a>
           </div>
         </div>
@@ -325,9 +329,9 @@
         <div class="footer-legal">
           <h4>Legal</h4>
           <ul>
-            <li><a href="politica-privacidad.html" class="footer-link">Política de privacidad</a></li>
-            <li><a href="preguntas-frecuentes.html" class="footer-link">Preguntas frecuentes</a></li>
-            <li><a href="terminos.html" class="footer-link">Términos y condiciones</a></li>
+            <li><a href="politica-privacidad.html">Política de privacidad</a></li>
+            <li><a href="preguntas-frecuentes.html">Preguntas frecuentes</a></li>
+            <li><a href="terminos.html">Términos y condiciones</a></li>
           </ul>
         </div>
       </div>
@@ -342,7 +346,7 @@
       // Guardar búsqueda en localStorage
       function guardarBusqueda(consulta) {
         let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedas = [consulta, ...busquedas].slice(0, 5); // Guardar las últimas 5
+        busquedas = [consulta, ...busquedas].slice(0, 5);
         localStorage.setItem('busquedas', JSON.stringify(busquedas));
         mostrarBusquedasRecientes();
       }

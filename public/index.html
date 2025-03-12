@@ -311,56 +311,42 @@
     </footer>
 
     <script>
-      const userInput = document.getElementById('user-input');
-      const chatBox = document.getElementById('chat-box');
-      const loading = document.getElementById('loading');
-      const busquedasRecientes = document.getElementById('busquedas-recientes');
+      // Simulando los datos de búsqueda
+      const productos = [
+        { nombre: "Cemento 25 kg", precio: 35000, link: "#cemento" },
+        { nombre: "Clavos 2 pulgadas", precio: 5000, link: "#clavos" },
+        { nombre: "Pintura exterior", precio: 15000, link: "#pintura" },
+        { nombre: "Tornillos", precio: 3000, link: "#tornillos" },
+        { nombre: "Ladrillos", precio: 20000, link: "#ladrillos" },
+      ];
 
-      // Guardar búsqueda en localStorage
-      function guardarBusqueda(consulta) {
-        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedas = [consulta, ...busquedas].slice(0, 5); // Solo mantener las últimas 5 búsquedas
-        localStorage.setItem('busquedas', JSON.stringify(busquedas));
-        mostrarBusquedasRecientes();
-      }
-
-      // Mostrar búsquedas recientes
-      function mostrarBusquedasRecientes() {
-        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedasRecientes.innerHTML = '';
-        busquedas.forEach(consulta => {
-          const link = document.createElement('a');
-          link.href = `#`;
-          link.textContent = consulta;
-          link.onclick = function () {
-            buscar(consulta);
-          };
-          busquedasRecientes.appendChild(link);
-        });
-      }
-
-      // Función para buscar material
       function buscarMaterial() {
-        const consulta = userInput.value;
-        if (consulta.trim()) {
-          loading.style.display = 'block';
-          // Simulación de búsqueda
-          setTimeout(() => {
-            loading.style.display = 'none';
-            chatBox.innerHTML = `
-              <div class="producto">
-                <h3>${consulta}</h3>
-                <p class="precio">Precio: $5000 CLP</p>
-                <a href="#" class="ver-producto">Ver producto</a>
-              </div>
-            `;
-            guardarBusqueda(consulta);
-          }, 2000);
-        }
-      }
+        const input = document.getElementById('user-input').value;
+        const resultados = productos.filter(producto => producto.nombre.toLowerCase().includes(input.toLowerCase()));
 
-      // Cargar las búsquedas recientes al cargar la página
-      document.addEventListener('DOMContentLoaded', mostrarBusquedasRecientes);
+        // Mostrar loading
+        document.getElementById('loading').style.display = "block";
+        setTimeout(() => {
+          // Ocultar loading y mostrar resultados
+          document.getElementById('loading').style.display = "none";
+          const chatBox = document.getElementById('chat-box');
+          chatBox.innerHTML = "";
+
+          if (resultados.length === 0) {
+            chatBox.innerHTML = "<p>No se encontraron resultados para esa búsqueda.</p>";
+          } else {
+            resultados.forEach(producto => {
+              chatBox.innerHTML += `
+                <div class="producto">
+                  <h3>${producto.nombre}</h3>
+                  <p class="precio">$${producto.precio}</p>
+                  <a href="${producto.link}" class="ver-producto" target="_blank">Ver Producto</a>
+                </div>
+              `;
+            });
+          }
+        }, 1000); // Simula un retraso para los resultados
+      }
     </script>
   </body>
 </html>

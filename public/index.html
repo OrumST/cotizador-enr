@@ -216,8 +216,24 @@
       }
 
       .footer-content {
-        max-width: 600px;
+        max-width: 1200px;
         margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .footer-info {
+        text-align: left;
+        flex: 1;
+        margin-right: 20px;
+      }
+
+      .footer-legal {
+        text-align: right;
+        flex: 1;
+        margin-left: 20px;
       }
 
       .footer-link {
@@ -229,14 +245,17 @@
         text-decoration: underline; /* Subrayado al hacer hover */
       }
 
-      .footer-links {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
+      .footer-socials {
+        margin-top: 10px;
       }
 
-      .footer-section {
-        text-align: center;
+      .footer-socials a {
+        margin: 0 10px;
+        transition: transform 0.2s;
+      }
+
+      .footer-socials a:hover {
+        transform: scale(1.1); /* Efecto de escala al hacer hover */
       }
 
       .footer-section h4 {
@@ -262,21 +281,6 @@
       .footer-section ul li a:hover {
         text-decoration: underline;
       }
-
-      .footer-socials {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-      }
-
-      .footer-socials a {
-        margin: 0 15px;
-        transition: transform 0.2s;
-      }
-
-      .footer-socials a:hover {
-        transform: scale(1.1); /* Efecto de escala al hacer hover */
-      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   </head>
@@ -292,14 +296,7 @@
     <!-- Contenedor principal -->
     <div class="contenedor">
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" list="sugerencias" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
-      <datalist id="sugerencias">
-        <option value="Cemento 25 kg">
-        <option value="Clavos 2 pulgadas">
-        <option value="Pintura exterior">
-        <option value="Tornillos">
-        <option value="Ladrillos">
-      </datalist>
+      <input type="text" id="user-input" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
       <button onclick="buscarMaterial()">Buscar Precios</button>
       <div id="loading">Buscando...</div>
       <div id="busquedas-recientes"></div>
@@ -309,28 +306,29 @@
     <!-- FOOTER -->
     <footer>
       <div class="footer-content">
-        <p><strong>ENR</strong> - Cotizador de Materiales</p>
-        <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-        <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
-        
-        <div class="footer-links">
-          <div class="footer-section">
-            <h4>Legal</h4>
-            <ul>
-              <li><a href="#" class="footer-link">Términos y condiciones</a></li>
-              <li><a href="#" class="footer-link">Preguntas frecuentes</a></li>
-              <li><a href="#" class="footer-link">Política de privacidad</a></li>
-            </ul>
+        <!-- Información y contacto (izquierda) -->
+        <div class="footer-info">
+          <p><strong>ENR</strong> - Cotizador de Materiales</p>
+          <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+          <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+          <div class="footer-socials">
+            <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
+              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
+              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
+            </a>
           </div>
         </div>
 
-        <div class="footer-socials">
-          <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
-          </a>
+        <!-- Enlaces legales (derecha) -->
+        <div class="footer-legal">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="politica-privacidad.html" class="footer-link">Política de privacidad</a></li>
+            <li><a href="preguntas-frecuentes.html" class="footer-link">Preguntas frecuentes</a></li>
+            <li><a href="terminos.html" class="footer-link">Términos y condiciones</a></li>
+          </ul>
         </div>
       </div>
     </footer>

@@ -13,7 +13,7 @@
       }
 
       body {
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background-color: black;
         display: flex;
         flex-direction: column;
@@ -86,7 +86,7 @@
       }
 
       h1 {
-        font-size: 28px;
+        font-size: 24px;
         color: #333;
         margin-bottom: 20px;
         text-align: center;
@@ -94,11 +94,11 @@
 
       #user-input {
         width: calc(100% - 24px);
-        padding: 15px;
+        padding: 12px;
         margin-bottom: 16px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        font-size: 18px; /* Texto más grande */
+        font-size: 16px;
         text-align: center;
       }
 
@@ -107,58 +107,33 @@
       }
 
       button {
-        background-color: #FF6F00; /* Naranja */
+        background-color: #4CAF50;
         color: white;
         border: none;
-        padding: 15px;
+        padding: 12px;
         width: 100%;
         border-radius: 8px;
         cursor: pointer;
         transition: transform 0.2s, background-color 0.2s;
-        font-size: 18px; /* Texto más grande */
+        font-size: 16px;
         font-weight: bold;
       }
 
       button:hover {
-        background-color: #E65100; /* Naranja más oscuro */
         transform: scale(1.05);
-      }
-
-      #loading {
-        display: none;
-        margin-top: 10px;
-        font-size: 16px;
-        color: #333;
-      }
-
-      #busquedas-recientes {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #666;
-      }
-
-      #busquedas-recientes a {
-        color: #1a73e8;
-        text-decoration: none;
-        margin: 0 5px;
-      }
-
-      #busquedas-recientes a:hover {
-        text-decoration: underline;
+        background-color: #45a049;
       }
 
       #chat-box {
         margin-top: 16px;
-        text-align: left;
       }
 
       .producto {
-        background-color: #f8f9fa;
+        background-color: #fafafa;
         border: 1px solid #ddd;
-        padding: 15px;
+        padding: 8px;
         border-radius: 8px;
-        margin-top: 10px;
-        animation: fadeIn 0.5s ease-in-out;
+        margin-top: 8px;
       }
 
       .precio {
@@ -168,17 +143,13 @@
 
       .ver-producto {
         display: inline-block;
-        margin-top: 10px;
+        margin-top: 4px;
         text-decoration: none;
-        background-color: #4CAF50;
-        color: white !important;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 14px;
+        color: #1a73e8;
       }
 
       .ver-producto:hover {
-        background-color: #45a049;
+        text-decoration: underline;
       }
 
       /* Ajustes responsivos */
@@ -188,164 +159,103 @@
           margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
         }
         h1 {
-          font-size: 24px;
+          font-size: 20px;
           margin-bottom: 16px;
         }
         #user-input {
-          font-size: 16px;
-          padding: 12px;
+          font-size: 14px;
+          padding: 10px;
         }
         button {
-          font-size: 16px;
-          padding: 12px;
+          font-size: 14px;
+          padding: 10px;
         }
       }
 
       /* FOOTER */
       footer {
         width: 100%;
-        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
-        color: #333; /* Texto oscuro para mejor contraste */
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        text-align: center;
         padding: 20px;
-        position: fixed; /* Fijo al pie de página */
+        position: absolute;
         bottom: 0;
-        left: 0;
         z-index: 1; /* Asegura que el footer esté sobre el fondo */
-        border-top: 1px solid #ddd; /* Línea superior sutil */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
       }
 
-      .footer-content-left {
-        display: flex;
-        align-items: center;
-      }
-
-      .footer-content-left p {
-        margin-right: 20px;
+      footer p {
+        margin: 8px 0;
       }
 
       .footer-socials {
         display: flex;
         justify-content: center;
+        margin-top: 10px;
       }
 
       .footer-socials a {
+        color: white;
+        text-decoration: none;
         margin: 0 15px;
-        transition: transform 0.2s;
+        font-size: 20px;
+        transition: color 0.3s;
       }
 
       .footer-socials a:hover {
-        transform: scale(1.1); /* Efecto de escala al hacer hover */
-      }
-
-      .footer-content-right {
-        text-align: right;
-      }
-
-      .legal-links a {
-        color: #333; /* Color del enlace igual al texto */
-        text-decoration: none;
-        display: block;
-        margin: 5px 0;
-      }
-
-      .legal-links a:hover {
-        text-decoration: underline;
+        color: #4CAF50;
       }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   </head>
   <body>
     <!-- HEADER -->
     <header class="header">
       <nav class="nav">
         <a href="#" onclick="window.location.reload(); return false;">Inicio</a>
-        <a href="contacto.html">Contacto</a>
+        <a href="#">Contacto</a>
       </nav>
     </header>
 
     <!-- Contenedor principal -->
     <div class="contenedor">
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" list="sugerencias" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
-      <datalist id="sugerencias">
-        <option value="Cemento 25 kg">
-        <option value="Clavos 2 pulgadas">
-        <option value="Pintura exterior">
-        <option value="Tornillos">
-        <option value="Ladrillos">
-      </datalist>
-      <button onclick="buscarMaterial()">Buscar Precios</button>
-      <div id="loading">Buscando...</div>
-      <div id="busquedas-recientes"></div>
+      <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
+      <button onclick="sendMessage()">Buscar Precios</button>
       <div id="chat-box"></div>
     </div>
 
     <!-- FOOTER -->
     <footer>
-      <div class="footer-content-left">
-        <div>
-          <p><strong>ENR</strong> - Cotizador de Materiales</p>
-          <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-          <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
-        </div>
-        <div class="footer-socials">
-          <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
-          </a>
-          <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
-          </a>
-        </div>
-      </div>
-
-      <div class="footer-content-right">
-        <div class="legal-links">
-          <a href="terminos.html">Términos y condiciones</a>
-          <a href="preguntas-frecuentes.html">Preguntas frecuentes</a>
-          <a href="politica-privacidad.html">Política de privacidad</a>
-        </div>
+      <p><strong>ENR</strong> - Cotizador de Materiales</p>
+      <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+      <p>Contacto: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> | Tel: 958576799</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
+          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
+        </a>
       </div>
     </footer>
 
     <script>
-      // Simulando los datos de búsqueda
-      const productos = [
-        { nombre: "Cemento 25 kg", precio: 35000, link: "#cemento" },
-        { nombre: "Clavos 2 pulgadas", precio: 5000, link: "#clavos" },
-        { nombre: "Pintura exterior", precio: 15000, link: "#pintura" },
-        { nombre: "Tornillos", precio: 3000, link: "#tornillos" },
-        { nombre: "Ladrillos", precio: 20000, link: "#ladrillos" },
-      ];
+      async function sendMessage() {
+        const userInput = document.getElementById('user-input').value;
+        const chatBox = document.getElementById('chat-box');
 
-      function buscarMaterial() {
-        const input = document.getElementById('user-input').value;
-        const resultados = productos.filter(producto => producto.nombre.toLowerCase().includes(input.toLowerCase()));
+        if (userInput.trim() === '') return;
 
-        // Mostrar loading
-        document.getElementById('loading').style.display = "block";
-        setTimeout(() => {
-          // Ocultar loading y mostrar resultados
-          document.getElementById('loading').style.display = "none";
-          const chatBox = document.getElementById('chat-box');
-          chatBox.innerHTML = "";
+        chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
 
-          if (resultados.length === 0) {
-            chatBox.innerHTML = "<p>No se encontraron resultados para esa búsqueda.</p>";
-          } else {
-            resultados.forEach(producto => {
-              chatBox.innerHTML += `
-                <div class="producto">
-                  <h3>${producto.nombre}</h3>
-                  <p class="precio">$${producto.precio}</p>
-                  <a href="${producto.link}" class="ver-producto" target="_blank">Ver Producto</a>
-                </div>
-              `;
-            });
-          }
-        }, 1000); // Simula un retraso para los resultados
+        try {
+          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
+          const data = await response.json();
+
+          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
+        } catch (error) {
+          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
+        }
       }
     </script>
   </body>

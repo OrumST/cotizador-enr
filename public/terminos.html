@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cotizador de Materiales - Antofagasta</title>
+    <title>Términos y Condiciones</title>
     <style>
       /* Reset global */
       * {
@@ -14,374 +14,169 @@
 
       body {
         font-family: 'Roboto', sans-serif;
-        background-color: black;
+        background-color: #000;
+        color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
         min-height: 100vh;
-        position: relative;
-        text-align: center;
-        padding-bottom: 100px; /* Deja espacio para el footer */
-        margin-bottom: 0; /* Evita margen extra al fondo */
+        padding: 20px;
       }
 
-      /* Fondo con logo en opacidad ajustada */
-      body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
+      header {
         width: 100%;
-        height: 100%;
-        background: url("https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/public/logo") no-repeat center center;
-        background-size: contain;
-        opacity: 0.2;
-        z-index: -1;
-      }
-
-      /* HEADER */
-      .header {
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        padding: 15px 0;
+        background-color: #333;
+        padding: 10px 0;
         text-align: center;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 10;
-        border-bottom: 1px solid #444;
+        margin-bottom: 20px;
       }
 
-      .header nav a {
-        color: white;
+      header a {
+        color: #fff;
         text-decoration: none;
         margin: 0 15px;
         font-size: 18px;
-        font-weight: bold;
-        transition: color 0.3s, transform 0.2s;
       }
 
-      .header nav a:hover {
-        color: #4CAF50;
-        transform: scale(1.1);
-      }
-
-      /* Contenedor principal centrado y responsivo */
-      .contenedor {
-        background-color: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        width: 90%;
-        margin-top: 220px; /* Posicionado a 220px del header */
-        text-align: center;
-        animation: fadeIn 1s ease-in-out;
-        z-index: 5; /* Asegura que el contenedor se mantenga sobre el fondo */
-      }
-
-      @keyframes fadeIn {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
-
-      h1 {
-        font-size: 28px;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-      }
-
-      #user-input {
-        width: calc(100% - 24px);
-        padding: 15px;
-        margin-bottom: 16px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        font-size: 18px; /* Texto más grande */
-        text-align: center;
-      }
-
-      #user-input::placeholder {
-        text-align: center;
-      }
-
-      button {
-        background-color: #FF6F00; /* Naranja */
-        color: white;
-        border: none;
-        padding: 15px;
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: transform 0.2s, background-color 0.2s;
-        font-size: 18px; /* Texto más grande */
-        font-weight: bold;
-      }
-
-      button:hover {
-        background-color: #E65100; /* Naranja más oscuro */
-        transform: scale(1.05);
-      }
-
-      #loading {
-        display: none;
-        margin-top: 10px;
-        font-size: 16px;
-        color: #333;
-      }
-
-      #busquedas-recientes {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #666;
-      }
-
-      #busquedas-recientes a {
-        color: #1a73e8;
-        text-decoration: none;
-        margin: 0 5px;
-      }
-
-      #busquedas-recientes a:hover {
+      header a:hover {
         text-decoration: underline;
       }
 
-      #chat-box {
-        margin-top: 16px;
+      .contenedor {
+        background-color: #fff;
+        color: #333;
+        padding: 40px;
+        max-width: 800px;
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
         text-align: left;
       }
 
-      .producto {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 10px;
-        animation: fadeIn 0.5s ease-in-out;
+      .contenedor h2 {
+        font-size: 24px;
+        margin-top: 20px;
       }
 
-      .precio {
-        color: green;
-        font-weight: bold;
+      .contenedor p {
+        font-size: 16px;
+        line-height: 1.6;
+        margin-top: 10px;
       }
 
-      .ver-producto {
-        display: inline-block;
+      .contenedor ul {
+        list-style-type: disc;
+        padding-left: 20px;
         margin-top: 10px;
-        text-decoration: none;
-        background-color: #4CAF50;
-        color: white !important;
-        padding: 5px 10px;
+      }
+
+      .contenedor ul li {
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+
+      .volver-btn {
+        background-color: #ff6f00;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
         border-radius: 5px;
-        font-size: 14px;
+        text-align: center;
+        display: inline-block;
+        margin-top: 20px;
+        transition: background-color 0.3s;
       }
 
-      .ver-producto:hover {
-        background-color: #45a049;
+      .volver-btn:hover {
+        background-color: #e65c00;
       }
 
-      /* Ajustes responsivos */
+      footer {
+        width: 100%;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      footer a {
+        color: #ff6f00;
+        text-decoration: none;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
       @media (max-width: 600px) {
         .contenedor {
           padding: 20px;
-          margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
         }
         h1 {
-          font-size: 24px;
-          margin-bottom: 16px;
+          font-size: 28px;
         }
-        #user-input {
-          font-size: 16px;
-          padding: 12px;
+        .contenedor h2 {
+          font-size: 20px;
         }
-        button {
-          font-size: 16px;
-          padding: 12px;
+        .contenedor p,
+        .contenedor ul li {
+          font-size: 14px;
         }
-      }
-
-      /* FOOTER */
-      footer {
-        width: 100%;
-        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
-        color: #333; /* Texto oscuro para mejor contraste */
-        text-align: center;
-        padding: 20px;
-        position: fixed; /* Fijo al pie de página */
-        bottom: 0;
-        left: 0;
-        z-index: 1; /* Asegura que el footer esté sobre el fondo */
-        border-top: 1px solid #ddd; /* Línea superior sutil */
-      }
-
-      .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-wrap: wrap;
-      }
-
-      .footer-info {
-        text-align: left;
-        flex: 1;
-        margin-right: 20px;
-      }
-
-      .footer-legal {
-        text-align: right;
-        flex: 1;
-        margin-left: 20px;
-      }
-
-      .footer-link {
-        color: #333; /* Color del enlace igual al texto */
-        text-decoration: none;
-      }
-
-      .footer-link:hover {
-        text-decoration: underline; /* Subrayado al hacer hover */
-      }
-
-      .footer-socials {
-        margin-top: 10px;
-      }
-
-      .footer-socials a {
-        margin: 0 10px;
-        transition: transform 0.2s;
-      }
-
-      .footer-socials a:hover {
-        transform: scale(1.1); /* Efecto de escala al hacer hover */
-      }
-
-      .footer-section h4 {
-        margin-bottom: 8px;
-        font-size: 16px;
-        font-weight: bold;
-      }
-
-      .footer-section ul {
-        list-style: none;
-        padding: 0;
-      }
-
-      .footer-section ul li {
-        margin: 5px 0;
-      }
-
-      .footer-section ul li a {
-        text-decoration: none;
-        color: #333;
-      }
-
-      .footer-section ul li a:hover {
-        text-decoration: underline;
       }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   </head>
   <body>
-    <!-- HEADER -->
-    <header class="header">
-      <nav class="nav">
-        <a href="#" onclick="window.location.reload(); return false;">Inicio</a>
-        <a href="contacto.html">Contacto</a>
-      </nav>
+    <header>
+      <a href="index.html">Inicio</a>
+      <a href="contacto.html">Contacto</a>
     </header>
 
-    <!-- Contenedor principal -->
     <div class="contenedor">
-      <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
-      <button onclick="buscarMaterial()">Buscar Precios</button>
-      <div id="loading">Buscando...</div>
-      <div id="busquedas-recientes"></div>
-      <div id="chat-box"></div>
+      <h1>Términos y Condiciones</h1>
+      <h2>Introducción</h2>
+      <p>Bienvenido a ENR - Cotizador de Materiales. Estos Términos y Condiciones rigen el uso de nuestro sitio web y los servicios ofrecidos. Al acceder y utilizar este sitio, usted acepta los términos y condiciones establecidos a continuación.</p>
+
+      <h2>1. Aceptación de los Términos</h2>
+      <p>Al utilizar nuestro sitio web, usted acepta de manera plena y sin reservas los términos y condiciones establecidos. Si no está de acuerdo con estos términos, por favor, no utilice este sitio.</p>
+
+      <h2>2. Uso del Sitio</h2>
+      <p>Este sitio se proporciona únicamente con fines informativos y de cotización. Usted se compromete a utilizar el sitio de manera adecuada y conforme a las leyes vigentes.</p>
+
+      <h2>3. Responsabilidades del Usuario</h2>
+      <ul>
+        <li>Proveer información precisa y actualizada en el momento de realizar una consulta o búsqueda.</li>
+        <li>No realizar actividades ilegales, fraudulentas o malintencionadas utilizando el sitio.</li>
+        <li>Ser responsable de la seguridad de su cuenta y contraseña si decide registrarse.</li>
+      </ul>
+
+      <h2>4. Precios y Disponibilidad</h2>
+      <p>Los precios y la disponibilidad de los productos mostrados en el cotizador son indicativos y están sujetos a cambios sin previo aviso. Los precios mostrados no incluyen impuestos ni costos adicionales asociados.</p>
+
+      <h2>5. Propiedad Intelectual</h2>
+      <p>Todo el contenido del sitio web, incluidos textos, imágenes, logotipos y otros materiales, están protegidos por derechos de autor y son propiedad exclusiva de ENR o sus licenciantes.</p>
+
+      <h2>6. Limitación de Responsabilidad</h2>
+      <p>ENR no será responsable por daños directos o indirectos derivados del uso del sitio, incluyendo, pero no limitándose a, pérdidas económicas, interrupciones del servicio o problemas técnicos.</p>
+
+      <h2>7. Modificaciones</h2>
+      <p>Nos reservamos el derecho de modificar estos términos y condiciones en cualquier momento. Las modificaciones serán publicadas en esta página y entrarán en vigencia inmediatamente después de su publicación.</p>
+
+      <h2>8. Ley Aplicable</h2>
+      <p>Estos Términos y Condiciones se regirán por las leyes de Chile. Cualquier disputa relacionada con el uso de este sitio será resuelta en los tribunales competentes de Chile.</p>
+
+      <h2>9. Contacto</h2>
+      <p>Si tiene alguna pregunta o inquietud acerca de estos Términos y Condiciones, puede contactarnos a través del correo <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> o llamarnos al <strong>958576799</strong>.</p>
+
+      <!-- Botón para volver -->
+      <button class="volver-btn" onclick="window.history.back()">Volver</button>
     </div>
 
-    <!-- FOOTER -->
     <footer>
-      <div class="footer-content">
-        <!-- Información y contacto (izquierda) -->
-        <div class="footer-info">
-          <p><strong>ENR</strong> - Cotizador de Materiales</p>
-          <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-          <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
-          <div class="footer-socials">
-            <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
-            </a>
-            <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
-            </a>
-          </div>
-        </div>
-
-        <!-- Enlaces legales (derecha) -->
-        <div class="footer-legal">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="politica-privacidad.html" class="footer-link">Política de privacidad</a></li>
-            <li><a href="preguntas-frecuentes.html" class="footer-link">Preguntas frecuentes</a></li>
-            <li><a href="terminos.html" class="footer-link">Términos y condiciones</a></li>
-          </ul>
-        </div>
-      </div>
+      <p>&copy; 2025 ENR - Cotizador de Materiales. Todos los derechos reservados.</p>
     </footer>
-
-    <script>
-      const userInput = document.getElementById('user-input');
-      const chatBox = document.getElementById('chat-box');
-      const loading = document.getElementById('loading');
-      const busquedasRecientes = document.getElementById('busquedas-recientes');
-
-      // Guardar búsqueda en localStorage
-      function guardarBusqueda(consulta) {
-        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedas = [consulta, ...busquedas].slice(0, 5); // Guardar las últimas 5
-        localStorage.setItem('busquedas', JSON.stringify(busquedas));
-        mostrarBusquedasRecientes();
-      }
-
-      // Mostrar búsquedas recientes
-      function mostrarBusquedasRecientes() {
-        const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedasRecientes.innerHTML = busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
-      }
-
-      // Llamar a la función al cargar la página
-      mostrarBusquedasRecientes();
-
-      async function buscarMaterial() {
-        const consulta = userInput.value.trim();
-        if (consulta === '') return;
-
-        loading.style.display = 'block';
-        chatBox.innerHTML = '';
-
-        try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
-          const data = await response.json();
-
-          chatBox.innerHTML = data.respuesta;
-          guardarBusqueda(consulta);
-        } catch (error) {
-          chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
-          console.error("Error en la petición:", error);
-        } finally {
-          loading.style.display = 'none';
-        }
-      }
-
-      // Función para buscar desde el historial
-      function buscar(consulta) {
-        userInput.value = consulta;
-        buscarMaterial();
-      }
-    </script>
   </body>
 </html>

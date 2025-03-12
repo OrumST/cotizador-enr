@@ -13,7 +13,7 @@
       }
 
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Roboto', sans-serif;
         background-color: black;
         display: flex;
         flex-direction: column;
@@ -86,7 +86,7 @@
       }
 
       h1 {
-        font-size: 24px;
+        font-size: 28px;
         color: #333;
         margin-bottom: 20px;
         text-align: center;
@@ -94,11 +94,11 @@
 
       #user-input {
         width: calc(100% - 24px);
-        padding: 12px;
+        padding: 15px;
         margin-bottom: 16px;
         border-radius: 8px;
         border: 1px solid #ccc;
-        font-size: 16px;
+        font-size: 18px; /* Texto más grande */
         text-align: center;
       }
 
@@ -107,33 +107,58 @@
       }
 
       button {
-        background-color: #4CAF50;
+        background-color: #FF6F00; /* Naranja */
         color: white;
         border: none;
-        padding: 12px;
+        padding: 15px;
         width: 100%;
         border-radius: 8px;
         cursor: pointer;
         transition: transform 0.2s, background-color 0.2s;
-        font-size: 16px;
+        font-size: 18px; /* Texto más grande */
         font-weight: bold;
       }
 
       button:hover {
+        background-color: #E65100; /* Naranja más oscuro */
         transform: scale(1.05);
-        background-color: #45a049;
+      }
+
+      #loading {
+        display: none;
+        margin-top: 10px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      #busquedas-recientes {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      #busquedas-recientes a {
+        color: #1a73e8;
+        text-decoration: none;
+        margin: 0 5px;
+      }
+
+      #busquedas-recientes a:hover {
+        text-decoration: underline;
       }
 
       #chat-box {
         margin-top: 16px;
+        text-align: left;
       }
 
       .producto {
-        background-color: #fafafa;
+        background-color: #f8f9fa;
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 15px;
         border-radius: 8px;
-        margin-top: 8px;
+        margin-top: 10px;
+        animation: fadeIn 0.5s ease-in-out;
       }
 
       .precio {
@@ -143,13 +168,17 @@
 
       .ver-producto {
         display: inline-block;
-        margin-top: 4px;
+        margin-top: 10px;
         text-decoration: none;
-        color: #1a73e8;
+        background-color: #4CAF50;
+        color: white !important;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
       }
 
       .ver-producto:hover {
-        text-decoration: underline;
+        background-color: #45a049;
       }
 
       /* Ajustes responsivos */
@@ -159,33 +188,79 @@
           margin-top: 150px; /* Ajuste menor en pantallas pequeñas */
         }
         h1 {
-          font-size: 20px;
+          font-size: 24px;
           margin-bottom: 16px;
         }
         #user-input {
-          font-size: 14px;
-          padding: 10px;
+          font-size: 16px;
+          padding: 12px;
         }
         button {
-          font-size: 14px;
-          padding: 10px;
+          font-size: 16px;
+          padding: 12px;
         }
       }
 
       /* FOOTER */
       footer {
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: white;
+        background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con opacidad */
+        color: #333; /* Texto oscuro para mejor contraste */
         text-align: center;
         padding: 20px;
-        position: absolute;
+        position: fixed; /* Fijo al pie de página */
         bottom: 0;
+        left: 0;
         z-index: 1; /* Asegura que el footer esté sobre el fondo */
+        border-top: 1px solid #ddd; /* Línea superior sutil */
       }
 
-      footer p {
-        margin: 8px 0;
+      .footer-content {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .footer-link {
+        color: #333; /* Color del enlace igual al texto */
+        text-decoration: none;
+      }
+
+      .footer-link:hover {
+        text-decoration: underline; /* Subrayado al hacer hover */
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+      }
+
+      .footer-section {
+        text-align: center;
+      }
+
+      .footer-section h4 {
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .footer-section ul li {
+        margin: 5px 0;
+      }
+
+      .footer-section ul li a {
+        text-decoration: none;
+        color: #333;
+      }
+
+      .footer-section ul li a:hover {
+        text-decoration: underline;
       }
 
       .footer-socials {
@@ -195,67 +270,119 @@
       }
 
       .footer-socials a {
-        color: white;
-        text-decoration: none;
         margin: 0 15px;
-        font-size: 20px;
-        transition: color 0.3s;
+        transition: transform 0.2s;
       }
 
       .footer-socials a:hover {
-        color: #4CAF50;
+        transform: scale(1.1); /* Efecto de escala al hacer hover */
       }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   </head>
   <body>
     <!-- HEADER -->
     <header class="header">
       <nav class="nav">
         <a href="#" onclick="window.location.reload(); return false;">Inicio</a>
-        <a href="#">Contacto</a>
+        <a href="contacto.html">Contacto</a>
       </nav>
     </header>
 
     <!-- Contenedor principal -->
     <div class="contenedor">
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-      <input type="text" id="user-input" placeholder="¿Qué material necesitas? (Ejemplo: Saco de cemento 25KG)" />
-      <button onclick="sendMessage()">Buscar Precios</button>
+      <input type="text" id="user-input" list="sugerencias" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
+      <datalist id="sugerencias">
+        <option value="Cemento 25 kg">
+        <option value="Clavos 2 pulgadas">
+        <option value="Pintura exterior">
+        <option value="Tornillos">
+        <option value="Ladrillos">
+      </datalist>
+      <button onclick="buscarMaterial()">Buscar Precios</button>
+      <div id="loading">Buscando...</div>
+      <div id="busquedas-recientes"></div>
       <div id="chat-box"></div>
     </div>
 
     <!-- FOOTER -->
     <footer>
-      <p><strong>ENR</strong> - Cotizador de Materiales</p>
-      <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-      <p>Contacto: <a href="mailto:enrservicios@outlook.es">enrservicios@outlook.es</a> | Tel: 958576799</p>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-          <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
-        </a>
+      <div class="footer-content">
+        <p><strong>ENR</strong> - Cotizador de Materiales</p>
+        <p>Dirección: Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+        <p>Contacto: <a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+        
+        <div class="footer-links">
+          <div class="footer-section">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#" class="footer-link">Términos y condiciones</a></li>
+              <li><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+              <li><a href="#" class="footer-link">Política de privacidad</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
+            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" width="30" height="30" />
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
+            <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" width="30" height="30" />
+          </a>
+        </div>
       </div>
     </footer>
 
     <script>
-      async function sendMessage() {
-        const userInput = document.getElementById('user-input').value;
-        const chatBox = document.getElementById('chat-box');
+      const userInput = document.getElementById('user-input');
+      const chatBox = document.getElementById('chat-box');
+      const loading = document.getElementById('loading');
+      const busquedasRecientes = document.getElementById('busquedas-recientes');
 
-        if (userInput.trim() === '') return;
+      // Guardar búsqueda en localStorage
+      function guardarBusqueda(consulta) {
+        let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+        busquedas = [consulta, ...busquedas].slice(0, 5); // Guardar las últimas 5
+        localStorage.setItem('busquedas', JSON.stringify(busquedas));
+        mostrarBusquedasRecientes();
+      }
 
-        chatBox.innerHTML = '<p><strong>Buscando...</strong></p>';
+      // Mostrar búsquedas recientes
+      function mostrarBusquedasRecientes() {
+        const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+        busquedasRecientes.innerHTML = busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
+      }
+
+      // Llamar a la función al cargar la página
+      mostrarBusquedasRecientes();
+
+      async function buscarMaterial() {
+        const consulta = userInput.value.trim();
+        if (consulta === '') return;
+
+        loading.style.display = 'block';
+        chatBox.innerHTML = '';
 
         try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(userInput)}`);
+          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
           const data = await response.json();
 
-          chatBox.innerHTML = `<div>${data.respuesta}</div>`;
+          chatBox.innerHTML = data.respuesta;
+          guardarBusqueda(consulta);
         } catch (error) {
           chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;
+          console.error("Error en la petición:", error);
+        } finally {
+          loading.style.display = 'none';
         }
+      }
+
+      // Función para buscar desde el historial
+      function buscar(consulta) {
+        userInput.value = consulta;
+        buscarMaterial();
       }
     </script>
   </body>

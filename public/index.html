@@ -187,6 +187,12 @@
         margin-bottom: 10px;
       }
 
+      .ferreteria {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+      }
+
       .ver-producto {
         display: inline-block;
         margin-top: 10px;
@@ -426,10 +432,23 @@
         chatBox.innerHTML = '';
 
         try {
-          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
-          const data = await response.json();
+          // Simulación de resultados (puedes reemplazar esto con la respuesta real de la API)
+          const resultados = [
+            { nombre: "Cemento 25 kg", precio: "$15.000", ferreteria: "Ferretería Antofagasta", enlace: "#" },
+            { nombre: "Clavos 2 pulgadas", precio: "$5.000", ferreteria: "Ferretería Central", enlace: "#" },
+            { nombre: "Pintura exterior", precio: "$20.000", ferreteria: "Ferretería Norte", enlace: "#" },
+            { nombre: "Tornillos", precio: "$3.000", ferreteria: "Ferretería Sur", enlace: "#" },
+            { nombre: "Ladrillos", precio: "$1.500", ferreteria: "Ferretería Este", enlace: "#" },
+          ];
 
-          chatBox.innerHTML = data.respuesta;
+          chatBox.innerHTML = resultados.map(producto => `
+            <div class="producto">
+              <h3>${producto.nombre}</h3>
+              <p class="precio">${producto.precio}</p>
+              <p class="ferreteria">${producto.ferreteria}</p>
+              <a href="${producto.enlace}" class="ver-producto">Ver producto</a>
+            </div>
+          `).join("");
           guardarBusqueda(consulta);
         } catch (error) {
           chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;

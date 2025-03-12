@@ -3,56 +3,84 @@ const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const NodeCache = require("node-cache");
-require("dotenv").config(); // Cargar variables de entorno
+const dotenv = require("dotenv");
 
-// Configurar Express y caché
+// Cargar variables de entorno si existe el archivo .env
+dotenv.config();
+
+// Configuración del servidor y caché
 const app = express();
 const port = process.env.PORT || 3000;
-const cache = new NodeCache({ stdTTL: 3600 }); // Cache válido por 1 hora
-
-// Clave de API (desde variables de entorno)
+const cacheTTL = parseInt(process.env.CACHE_TTL) || 3600; // Tiempo de caché en segundos (por defecto: 1 hora)
+const cache = new NodeCache({ stdTTL: cacheTTL });
 const apiKey = process.env.SERPAPI_KEY;
 
 // Middlewares
 app.use(cors());
 app.use(express.static("public"));
 
-// Lista de tiendas permitidas
-const tiendasPermitidas = [
-  "Sodimac Antofagasta",
-  "Construmart Antofagasta",
-  "Easy Antofagasta",
-  "MTS Antofagasta",
-  "Ferretería Prat",
-  "Imperial Antofagasta",
-  "Construmart",
-  "Sodimac",
-  "Easy",
-  "Homecenter Antofagasta"
-];
+// Lista de tiendas permitidas (convertida en Set para búsqueda más rápida)
+const tiendasPermitidas = new Set([
+  "sodimac antofagasta",
+  "construmart antofagasta",
+  "easy antofagasta",
+  "mts antofagasta",
+  "ferretería prat",
+  "imperial antofagasta",
+  "construmart",
+  "sodimac",
+  "easy",
+  "homecenter antofagasta"
+]);
 
-// Ruta para buscar materiales
+/**
+ * Filtra los resultados para incluir solo las tiendas permitidas
+ * @param {Array} resultados - Lista de productos de la API
+ * @returns {Array} - Lista filtrada de productos
+ */
+const filtrarTiendas = (resultados) => {
+  return resultados.filter((item) => {
+    const tienda = item.source?.toLowerCase() || "";
+    return Array.from(tiendasPermitidas).some((permitida) => tienda.includes(permitida));
+  });
+};
+
+/**
+ * Formatea los resultados en HTML
+ * @param {Array} resultados - Lista de productos filtrados
+ * @param {number} limit - Límite de resultados a mostrar
+ * @returns {string} - HTML con los productos
+ */
+const formatearResultados = (resultados, limit) => {
+  return resultados.slice(0, limit).map((item) => `
+    <div class="producto">
+      <p><strong>${item.title}</strong></p>
+      <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
+      <p>🏪 Tienda: ${item.source || "No especificada"}</p>
+      <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
+    </div>
+  `).join("");
+};
+
+// Ruta principal para búsqueda
 app.get("/buscar", async (req, res) => {
-  const consulta = req.query.q?.trim();
-  const limit = parseInt(req.query.limit) || 10; // Límite de resultados (por defecto: 10)
-
-  // Validar entrada
-  if (!consulta || consulta.length < 3) {
-    return res.json({ respuesta: "Por favor, ingresa un término de búsqueda válido (mínimo 3 caracteres)." });
-  }
-
-  // Verificar si los resultados están en caché
-  const cachedResults = cache.get(consulta);
-  if (cachedResults) {
-    return res.json({ respuesta: cachedResults });
-  }
-
   try {
-    // Hacer la petición a la API de SerpAPI
+    const consulta = req.query.q?.trim();
+    const limit = parseInt(req.query.limit) || 10;
+
+    if (!consulta || consulta.length < 3) {
+      return res.json({ respuesta: "Por favor, ingresa un término de búsqueda válido (mínimo 3 caracteres)." });
+    }
+
+    // Verificar caché
+    const cachedResults = cache.get(consulta);
+    if (cachedResults) return res.json({ respuesta: cachedResults });
+
+    // Llamar a la API
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
-        q: consulta + " Antofagasta",
+        q: `${consulta} Antofagasta`,
         hl: "es",
         gl: "cl",
         location: "Antofagasta, Chile",
@@ -61,52 +89,24 @@ app.get("/buscar", async (req, res) => {
     });
 
     let resultados = response.data?.shopping_results || [];
-
-    // Si no hay resultados
     if (resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
+      return res.json({ respuesta: "No se encontraron productos en Antofagasta." });
     }
 
-    // Filtrar resultados por tiendas permitidas
-    resultados = resultados.filter((item) =>
-      tiendasPermitidas.some((tienda) => item.source?.toLowerCase().includes(tienda.toLowerCase()))
-    );
-
-    // Si no hay resultados después del filtrado
+    // Filtrar por tiendas locales
+    resultados = filtrarTiendas(resultados);
     if (resultados.length === 0) {
       return res.json({ respuesta: "No se encontraron productos en tiendas locales de Antofagasta." });
     }
 
-    // Formatear resultados
-    let mensaje = "<strong>Resultados encontrados:</strong><br>";
-    resultados.slice(0, limit).forEach((item) => {
-      mensaje += `
-        <div class="producto">
-          <p><strong>${item.title}</strong></p>
-          <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
-          <p>🏪 Tienda: ${item.source || "No especificada"}</p>
-          <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
-        </div>
-      `;
-    });
+    // Formatear y responder
+    const respuestaHTML = `<strong>Resultados encontrados:</strong><br>` + formatearResultados(resultados, limit);
+    cache.set(consulta, respuestaHTML); // Guardar en caché solo si hay resultados
 
-    // Guardar en caché
-    cache.set(consulta, mensaje);
-
-    // Enviar respuesta
-    res.json({ respuesta: mensaje });
+    res.json({ respuesta: respuestaHTML });
   } catch (error) {
     console.error("Error en la búsqueda:", error.message);
-    if (error.response) {
-      // Error de la API (por ejemplo, clave inválida)
-      return res.status(500).json({ respuesta: "Error en la API. Verifica la clave o intenta más tarde." });
-    } else if (error.request) {
-      // No se recibió respuesta de la API
-      return res.status(500).json({ respuesta: "No se pudo conectar con la API. Intenta más tarde." });
-    } else {
-      // Otros errores
-      return res.status(500).json({ respuesta: "Error interno del servidor." });
-    }
+    res.status(500).json({ respuesta: "Error al obtener resultados. Intenta nuevamente más tarde." });
   }
 });
 
@@ -122,6 +122,4 @@ app.get("/", (req, res) => {
 });
 
 // Iniciar servidor
-app.listen(port, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));

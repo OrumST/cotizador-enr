@@ -155,11 +155,11 @@
       }
 
       .producto {
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
         padding: 20px;
         border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s, box-shadow 0.3s;
         animation: slideIn 0.5s ease-out;
       }
@@ -171,13 +171,14 @@
 
       .producto:hover {
         transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       }
 
       .producto h3 {
         font-size: 18px;
         color: #333;
         margin-bottom: 10px;
+        font-weight: 500;
       }
 
       .precio {
@@ -432,23 +433,10 @@
         chatBox.innerHTML = '';
 
         try {
-          // Simulación de resultados (puedes reemplazar esto con la respuesta real de la API)
-          const resultados = [
-            { nombre: "Cemento 25 kg", precio: "$15.000", ferreteria: "Ferretería Antofagasta", enlace: "#" },
-            { nombre: "Clavos 2 pulgadas", precio: "$5.000", ferreteria: "Ferretería Central", enlace: "#" },
-            { nombre: "Pintura exterior", precio: "$20.000", ferreteria: "Ferretería Norte", enlace: "#" },
-            { nombre: "Tornillos", precio: "$3.000", ferreteria: "Ferretería Sur", enlace: "#" },
-            { nombre: "Ladrillos", precio: "$1.500", ferreteria: "Ferretería Este", enlace: "#" },
-          ];
+          const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
+          const data = await response.json();
 
-          chatBox.innerHTML = resultados.map(producto => `
-            <div class="producto">
-              <h3>${producto.nombre}</h3>
-              <p class="precio">${producto.precio}</p>
-              <p class="ferreteria">${producto.ferreteria}</p>
-              <a href="${producto.enlace}" class="ver-producto">Ver producto</a>
-            </div>
-          `).join("");
+          chatBox.innerHTML = data.respuesta;
           guardarBusqueda(consulta);
         } catch (error) {
           chatBox.innerHTML = `<p><strong>Error:</strong> No se pudo obtener respuesta.</p>`;

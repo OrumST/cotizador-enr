@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Cotizador de Materiales - Antofagasta</title>
     <style>
       /* Reset global */
@@ -50,7 +50,6 @@
         z-index: 10;
         border-bottom: 1px solid #444;
       }
-
       .header nav a {
         color: white;
         text-decoration: none;
@@ -59,37 +58,35 @@
         font-weight: bold;
         transition: color 0.3s, transform 0.2s;
       }
-
       .header nav a:hover {
         color: #4CAF50;
         transform: scale(1.1);
       }
 
-      /* Contenedor principal */
+      /* CONTENEDOR PRINCIPAL */
       .contenedor {
         background-color: white;
-        padding: 30px;
+        padding: 25px;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         max-width: 1200px;
         width: 90%;
         margin-top: 220px;
         text-align: center;
-        animation: fadeIn 1s ease-in-out;
+        animation: fadeIn 0.8s ease-in-out;
         z-index: 5;
       }
-
       @keyframes fadeIn {
         from { opacity: 0; transform: scale(0.95); }
         to { opacity: 1; transform: scale(1); }
       }
-
       h1 {
         font-size: 28px;
         color: #333;
         margin-bottom: 20px;
       }
 
+      /* BUSCADOR */
       #user-input {
         width: calc(100% - 24px);
         padding: 15px;
@@ -99,11 +96,9 @@
         font-size: 18px;
         text-align: center;
       }
-
       #user-input::placeholder {
         text-align: center;
       }
-
       button {
         background-color: #FF6F00;
         color: white;
@@ -115,109 +110,20 @@
         transition: transform 0.2s, background-color 0.2s;
         font-size: 18px;
         font-weight: bold;
+        margin-bottom: 10px;
       }
-
       button:hover {
         background-color: #E65100;
         transform: scale(1.05);
       }
 
+      /* MENSAJE DE CARGA */
       #loading {
         display: none;
         margin-top: 10px;
         font-size: 16px;
         color: #333;
       }
-
-      #busquedas-recientes {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #666;
-      }
-
-      #busquedas-recientes a {
-        color: #1a73e8;
-        text-decoration: none;
-        margin: 0 5px;
-      }
-
-      #busquedas-recientes a:hover {
-        text-decoration: underline;
-      }
-
-      /* Contenedor de resultados */
-      #chat-box {
-        margin-top: 8px; /* Se reduce el margen superior */
-        text-align: left;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 10px; /* Se reduce el espacio entre columnas */
-      }
-
-      .producto {
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
-        padding: 15px; /* Se reduce un poco el padding */
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s, box-shadow 0.3s;
-        animation: slideIn 0.5s ease-out;
-        /* Se elimina margin para evitar espacios en blanco */
-      }
-
-      @keyframes slideIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-
-      .producto:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-      }
-
-      .producto h3 {
-        font-size: 18px;
-        color: #333;
-        margin-bottom: 10px;
-        font-weight: 500;
-      }
-
-      .precio {
-        color: green;
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 10px;
-      }
-
-      .ferreteria {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 10px;
-      }
-
-      .ver-producto {
-        display: inline-block;
-        margin-top: 10px;
-        text-decoration: none;
-        background-color: #4CAF50;
-        color: white !important;
-        padding: 8px 16px;
-        border-radius: 5px;
-        font-size: 14px;
-        transition: background-color 0.3s, transform 0.3s;
-      }
-
-      .ver-producto:hover {
-        background-color: #45a049;
-        transform: scale(1.05);
-      }
-
-      /* Animación de carga */
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-
       .loading-spinner {
         display: inline-block;
         width: 24px;
@@ -226,6 +132,83 @@
         border-top: 3px solid transparent;
         border-radius: 50%;
         animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* BÚSQUEDAS RECIENTES */
+      #busquedas-recientes {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+      }
+      #busquedas-recientes a {
+        color: #1a73e8;
+        text-decoration: none;
+        margin: 0 5px;
+      }
+      #busquedas-recientes a:hover {
+        text-decoration: underline;
+      }
+
+      /* RESULTADOS */
+      #chat-box {
+        margin-top: 5px;
+        text-align: left;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+      }
+      .producto {
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        animation: slideIn 0.4s ease-out;
+      }
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .producto:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+      }
+      .producto h3 {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+      .precio {
+        color: green;
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+      .ferreteria {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+      }
+      .ver-producto {
+        display: inline-block;
+        margin-top: 8px;
+        text-decoration: none;
+        background-color: #4CAF50;
+        color: white !important;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      .ver-producto:hover {
+        background-color: #45a049;
+        transform: scale(1.05);
       }
 
       /* FOOTER */
@@ -240,7 +223,6 @@
         z-index: 1;
         border-top: 1px solid #ddd;
       }
-
       .footer-content {
         max-width: 1200px;
         margin: 0 auto;
@@ -249,70 +231,57 @@
         align-items: center;
         flex-wrap: wrap;
       }
-
       .footer-info {
         text-align: left;
         flex: 1;
       }
-
       .footer-info p {
         margin: 5px 0;
         font-size: 14px;
       }
-
       .footer-info strong {
         font-size: 16px;
         color: #333;
       }
-
       .footer-legal {
         text-align: right;
         flex: 1;
       }
-
       .footer-legal h4 {
         font-size: 16px;
         margin-bottom: 10px;
         color: #333;
       }
-
       .footer-legal ul {
         list-style: none;
         padding: 0;
       }
-
       .footer-legal ul li {
         margin: 5px 0;
       }
-
       .footer-legal ul li a {
         text-decoration: none;
         color: #333;
         font-size: 14px;
         transition: color 0.3s;
       }
-
       .footer-legal ul li a:hover {
         color: #FF6F00;
       }
-
       .footer-socials {
         display: flex;
         gap: 10px;
         margin-top: 10px;
       }
-
       .footer-socials a {
         color: #333;
         text-decoration: none;
         transition: transform 0.3s, color 0.3s;
       }
-
       .footer-socials a:hover {
         color: #FF6F00;
         transform: scale(1.1);
       }
-
       .footer-socials img {
         width: 24px;
         height: 24px;
@@ -324,26 +293,18 @@
           padding: 20px;
           margin-top: 150px;
         }
-
         #chat-box {
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
-
         .footer-content {
           flex-direction: column;
           text-align: center;
         }
-
         .footer-info, .footer-legal {
           text-align: center;
           margin-bottom: 15px;
         }
-
-        .footer-legal {
-          text-align: center;
-        }
       }
-
       @media (max-width: 480px) {
         #chat-box {
           grid-template-columns: 1fr;
@@ -366,10 +327,16 @@
       <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
       <input type="text" id="user-input" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
       <button onclick="buscarMaterial()">Buscar Precios</button>
+
+      <!-- Indicador de carga -->
       <div id="loading">
         <div class="loading-spinner"></div> Buscando...
       </div>
+
+      <!-- Búsquedas recientes -->
       <div id="busquedas-recientes"></div>
+
+      <!-- Resultados -->
       <div id="chat-box"></div>
     </div>
 
@@ -380,13 +347,24 @@
         <div class="footer-info">
           <p><strong>ENR</strong> - Cotizador de Materiales</p>
           <p>Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
-          <p><a href="mailto:enrservicios@outlook.es" class="footer-link">enrservicios@outlook.es</a> | Tel: 958576799</p>
+          <p>
+            <a href="mailto:enrservicios@outlook.es" class="footer-link">
+              enrservicios@outlook.es
+            </a> 
+            | Tel: 958576799
+          </p>
           <div class="footer-socials">
             <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" alt="Instagram" />
+              <img 
+                src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/15707869.png" 
+                alt="Instagram" 
+              />
             </a>
             <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-              <img src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" alt="Facebook" />
+              <img 
+                src="https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/assets/124010.png" 
+                alt="Facebook"
+              />
             </a>
           </div>
         </div>
@@ -420,7 +398,12 @@
       // Mostrar búsquedas recientes
       function mostrarBusquedasRecientes() {
         const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
-        busquedasRecientes.innerHTML = busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
+        if (busquedas.length > 0) {
+          busquedasRecientes.innerHTML = "<strong>Búsquedas recientes:</strong> " + 
+            busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
+        } else {
+          busquedasRecientes.innerHTML = "";
+        }
       }
 
       // Llamar a la función al cargar la página

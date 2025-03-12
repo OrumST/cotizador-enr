@@ -147,21 +147,22 @@
 
       /* Contenedor de resultados */
       #chat-box {
-        margin-top: 16px;
+        margin-top: 8px; /* Se reduce el margen superior */
         text-align: left;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
+        gap: 10px; /* Se reduce el espacio entre columnas */
       }
 
       .producto {
         background-color: #ffffff;
         border: 1px solid #e0e0e0;
-        padding: 20px;
+        padding: 15px; /* Se reduce un poco el padding */
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s, box-shadow 0.3s;
         animation: slideIn 0.5s ease-out;
+        /* Se elimina margin para evitar espacios en blanco */
       }
 
       @keyframes slideIn {

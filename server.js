@@ -1,23 +1,17 @@
-// Importar dependencias
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const NodeCache = require("node-cache");
-require("dotenv").config(); // Cargar variables de entorno
+require("dotenv").config();
 
-// Configurar Express y caché
 const app = express();
 const port = process.env.PORT || 3000;
-const cache = new NodeCache({ stdTTL: 3600 }); // Cache válido por 1 hora
-
-// Clave de API (desde variables de entorno)
+const cache = new NodeCache({ stdTTL: 3600 });
 const apiKey = process.env.SERPAPI_KEY;
 
-// Middlewares
 app.use(cors());
 app.use(express.static("public"));
 
-// Lista de tiendas permitidas
 const tiendasPermitidas = [
   "Sodimac Antofagasta",
   "Construmart Antofagasta",
@@ -31,24 +25,41 @@ const tiendasPermitidas = [
   "Homecenter Antofagasta"
 ];
 
-// Ruta para buscar materiales
+// Función para simular stock (en un sistema real, esto vendría de una API)
+function verificarStock(tienda) {
+  const probabilidades = {
+    "sodimac": 0.7,
+    "construmart": 0.6,
+    "easy": 0.8,
+    "mts": 0.5,
+    "prat": 0.9,
+    "imperial": 0.6,
+    "homecenter": 0.7
+  };
+
+  const tiendaLower = tienda.toLowerCase();
+  for (const [key, prob] of Object.entries(probabilidades)) {
+    if (tiendaLower.includes(key)) {
+      return Math.random() < prob;
+    }
+  }
+  return Math.random() > 0.4;
+}
+
 app.get("/buscar", async (req, res) => {
   const consulta = req.query.q?.trim();
-  const limit = parseInt(req.query.limit) || 10; // Límite de resultados (por defecto: 10)
+  const limit = parseInt(req.query.limit) || 8;
 
-  // Validar entrada
   if (!consulta || consulta.length < 3) {
-    return res.json({ respuesta: "Por favor, ingresa un término de búsqueda válido (mínimo 3 caracteres)." });
+    return res.json({ respuesta: "Ingresa al menos 3 caracteres para buscar." });
   }
 
-  // Verificar si los resultados están en caché
   const cachedResults = cache.get(consulta);
   if (cachedResults) {
     return res.json({ respuesta: cachedResults });
   }
 
   try {
-    // Hacer la petición a la API de SerpAPI
     const response = await axios.get("https://serpapi.com/search.json", {
       params: {
         engine: "google_shopping",
@@ -61,67 +72,53 @@ app.get("/buscar", async (req, res) => {
     });
 
     let resultados = response.data?.shopping_results || [];
-
-    // Si no hay resultados
+    
     if (resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos con precios para esta búsqueda en Antofagasta." });
+      return res.json({ respuesta: "No encontramos productos para esta búsqueda en Antofagasta." });
     }
 
-    // Filtrar resultados por tiendas permitidas
     resultados = resultados.filter((item) =>
       tiendasPermitidas.some((tienda) => item.source?.toLowerCase().includes(tienda.toLowerCase()))
     );
 
-    // Si no hay resultados después del filtrado
     if (resultados.length === 0) {
-      return res.json({ respuesta: "No se encontraron productos en tiendas locales de Antofagasta." });
+      return res.json({ respuesta: "No encontramos resultados en las ferreterías de Antofagasta." });
     }
 
-    // Formatear resultados
-    let mensaje = "<strong>Resultados encontrados:</strong><br>";
+    let mensaje = `<div class="product-grid">`;
+    
     resultados.slice(0, limit).forEach((item) => {
+      const tieneStock = verificarStock(item.source);
+      const stockClass = tieneStock ? "in-stock" : "out-of-stock";
+      const stockText = tieneStock ? "DISPONIBLE" : "SIN STOCK";
+      
       mensaje += `
-        <div class="producto">
-          <p><strong>${item.title}</strong></p>
-          <p>💰 Precio: <span class="precio">${item.price || "N/A"}</span></p>
-          <p>🏪 Tienda: ${item.source || "No especificada"}</p>
-          <a href="${item.link}" target="_blank" class="ver-producto">🔗 Ver producto</a>
+        <div class="product-card">
+          <div class="stock-status ${stockClass}">${tieneStock ? '✅' : '❌'} ${stockText}</div>
+          <div class="product-info">
+            <h3>${item.title}</h3>
+            <div class="price-tag">${item.price || 'Precio no disponible'}</div>
+            <div class="store-badge">${item.source || 'Tienda local'}</div>
+            ${item.link ? `<a href="${item.link}" target="_blank" class="product-link">VER PRODUCTO</a>` : ''}
+          </div>
         </div>
       `;
     });
-
-    // Guardar en caché
+    
+    mensaje += `</div>`;
     cache.set(consulta, mensaje);
-
-    // Enviar respuesta
     res.json({ respuesta: mensaje });
+    
   } catch (error) {
-    console.error("Error en la búsqueda:", error.message);
-    if (error.response) {
-      // Error de la API (por ejemplo, clave inválida)
-      return res.status(500).json({ respuesta: "Error en la API. Verifica la clave o intenta más tarde." });
-    } else if (error.request) {
-      // No se recibió respuesta de la API
-      return res.status(500).json({ respuesta: "No se pudo conectar con la API. Intenta más tarde." });
-    } else {
-      // Otros errores
-      return res.status(500).json({ respuesta: "Error interno del servidor." });
-    }
+    console.error("Error:", error.message);
+    res.status(500).json({ respuesta: "Error al buscar productos. Intenta nuevamente." });
   }
 });
 
-// Ruta de inicio (documentación básica)
 app.get("/", (req, res) => {
-  res.send(`
-    <h1>API del Cotizador de Materiales</h1>
-    <p>Endpoints disponibles:</p>
-    <ul>
-      <li><strong>GET /buscar?q=consulta</strong>: Busca materiales en tiendas de Antofagasta.</li>
-    </ul>
-  `);
+  res.sendFile(__dirname + "/public/index.html");
 });
 
-// Iniciar servidor
 app.listen(port, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
+  console.log(`🚀 Servidor funcionando en http://localhost:${port}`);
 });

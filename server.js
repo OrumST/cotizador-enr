@@ -25,30 +25,9 @@ const tiendasPermitidas = [
   "Homecenter Antofagasta"
 ];
 
-// Función para simular stock (en un sistema real, esto vendría de una API)
-function verificarStock(tienda) {
-  const probabilidades = {
-    "sodimac": 0.7,
-    "construmart": 0.6,
-    "easy": 0.8,
-    "mts": 0.5,
-    "prat": 0.9,
-    "imperial": 0.6,
-    "homecenter": 0.7
-  };
-
-  const tiendaLower = tienda.toLowerCase();
-  for (const [key, prob] of Object.entries(probabilidades)) {
-    if (tiendaLower.includes(key)) {
-      return Math.random() < prob;
-    }
-  }
-  return Math.random() > 0.4;
-}
-
 app.get("/buscar", async (req, res) => {
   const consulta = req.query.q?.trim();
-  const limit = parseInt(req.query.limit) || 8;
+  const limit = parseInt(req.query.limit) || 10;
 
   if (!consulta || consulta.length < 3) {
     return res.json({ respuesta: "Ingresa al menos 3 caracteres para buscar." });
@@ -74,7 +53,7 @@ app.get("/buscar", async (req, res) => {
     let resultados = response.data?.shopping_results || [];
     
     if (resultados.length === 0) {
-      return res.json({ respuesta: "No encontramos productos para esta búsqueda en Antofagasta." });
+      return res.json({ respuesta: "No se encontraron productos para esta búsqueda en Antofagasta." });
     }
 
     resultados = resultados.filter((item) =>
@@ -82,25 +61,19 @@ app.get("/buscar", async (req, res) => {
     );
 
     if (resultados.length === 0) {
-      return res.json({ respuesta: "No encontramos resultados en las ferreterías de Antofagasta." });
+      return res.json({ respuesta: "No se encontraron productos en las tiendas de Antofagasta." });
     }
 
     let mensaje = `<div class="product-grid">`;
     
     resultados.slice(0, limit).forEach((item) => {
-      const tieneStock = verificarStock(item.source);
-      const stockClass = tieneStock ? "in-stock" : "out-of-stock";
-      const stockText = tieneStock ? "DISPONIBLE" : "SIN STOCK";
-      
       mensaje += `
         <div class="product-card">
-          <div class="stock-status ${stockClass}">${tieneStock ? '✅' : '❌'} ${stockText}</div>
-          <div class="product-info">
-            <h3>${item.title}</h3>
-            <div class="price-tag">${item.price || 'Precio no disponible'}</div>
-            <div class="store-badge">${item.source || 'Tienda local'}</div>
-            ${item.link ? `<a href="${item.link}" target="_blank" class="product-link">VER PRODUCTO</a>` : ''}
-          </div>
+          <div class="stock-badge">DISPONIBLE</div>
+          <div class="product-title">${item.title}</div>
+          <div class="product-price">${item.price || 'Consultar precio'}</div>
+          <div class="product-store">${item.source || 'Tienda local'}</div>
+          ${item.link ? `<a href="${item.link}" target="_blank" class="product-link">Ver producto</a>` : ''}
         </div>
       `;
     });

@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Roboto', sans-serif;
-      background-color: #f5f5f5;
+      background-color: black;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -32,20 +32,20 @@
       height: 100%;
       background: url("https://github.com/OrumST/cotizador-enr/raw/refs/heads/main/public/logo") no-repeat center center;
       background-size: contain;
-      opacity: 0.1;
+      opacity: 0.2;
       z-index: -1;
     }
 
     .header {
       width: 100%;
-      background-color: #FF6F00;
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 15px 0;
       text-align: center;
       position: fixed;
       top: 0;
       left: 0;
       z-index: 10;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border-bottom: 1px solid #444;
     }
 
     .header nav a {
@@ -54,27 +54,27 @@
       margin: 0 15px;
       font-size: 18px;
       font-weight: bold;
-      transition: all 0.3s;
+      transition: color 0.3s;
     }
 
     .header nav a:hover {
-      text-decoration: underline;
+      color: #4CAF50;
     }
 
     .contenedor {
       background-color: white;
       padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      width: 90%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       max-width: 1200px;
-      margin-top: 120px;
-      animation: fadeIn 0.5s ease-out;
+      width: 90%;
+      margin-top: 220px;
+      animation: fadeIn 0.8s ease-in-out;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     h1 {
@@ -84,19 +84,13 @@
     }
 
     #user-input {
-      width: 100%;
+      width: calc(100% - 24px);
       padding: 15px;
-      margin-bottom: 15px;
+      margin-bottom: 16px;
       border-radius: 8px;
-      border: 2px solid #ddd;
-      font-size: 16px;
-      transition: all 0.3s;
-    }
-
-    #user-input:focus {
-      border-color: #FF6F00;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(255,111,0,0.2);
+      border: 1px solid #ccc;
+      font-size: 18px;
+      text-align: center;
     }
 
     button {
@@ -109,18 +103,19 @@
       cursor: pointer;
       font-size: 18px;
       font-weight: bold;
-      transition: all 0.3s;
+      margin-bottom: 10px;
+      transition: background-color 0.3s;
     }
 
     button:hover {
       background-color: #E65100;
-      transform: translateY(-2px);
     }
 
     #loading {
       display: none;
-      margin: 20px 0;
+      margin-top: 10px;
       font-size: 16px;
+      color: #333;
     }
 
     .loading-spinner {
@@ -138,118 +133,92 @@
       100% { transform: rotate(360deg); }
     }
 
+    #busquedas-recientes {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* NUEVO DISEÑO DE PRODUCTOS */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
+      gap: 15px;
+      margin-top: 20px;
     }
 
     .product-card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-      animation: cardEntrance 0.6s ease-out;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       position: relative;
-      overflow: hidden;
-      border: 1px solid #eee;
+      animation: slideIn 0.4s ease-out;
     }
 
-    @keyframes cardEntrance {
-      from { opacity: 0; transform: translateY(20px); }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-
-    .stock-status {
+    .stock-badge {
       position: absolute;
       top: 10px;
       right: 10px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-
-    .in-stock {
       background: #4CAF50;
       color: white;
-      animation: pulse 2s infinite;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .out-of-stock {
-      background: #F44336;
-      color: white;
-    }
-
-    .product-info {
-      margin-top: 15px;
-      text-align: left;
-    }
-
-    .product-info h3 {
+    .product-title {
       font-size: 16px;
       color: #333;
       margin-bottom: 10px;
-      line-height: 1.4;
+      padding-right: 60px;
     }
 
-    .price-tag {
-      font-size: 22px;
-      color: #333;
-      font-weight: bold;
-      margin: 10px 0;
+    .product-price {
       color: #FF6F00;
+      font-weight: bold;
+      font-size: 20px;
+      margin: 10px 0;
     }
 
-    .store-badge {
-      display: inline-block;
-      background: #2196F3;
-      color: white;
-      padding: 4px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      margin: 5px 0;
+    .product-store {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
     }
 
     .product-link {
-      display: block;
-      text-align: center;
-      background: #FF6F00;
+      display: inline-block;
+      background: #2196F3;
       color: white !important;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 8px 15px;
+      border-radius: 4px;
       text-decoration: none;
-      margin-top: 15px;
-      transition: all 0.3s;
+      font-size: 14px;
+      transition: background-color 0.3s;
     }
 
     .product-link:hover {
-      background: #E65100;
+      background: #0b7dda;
     }
 
     footer {
       width: 100%;
-      background-color: #333;
-      color: white;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
       padding: 20px;
       position: fixed;
       bottom: 0;
       left: 0;
       z-index: 1;
+      border-top: 1px solid #ddd;
     }
 
     .footer-content {
@@ -261,34 +230,65 @@
       flex-wrap: wrap;
     }
 
+    .footer-info {
+      text-align: left;
+      flex: 1;
+    }
+
     .footer-info p {
       margin: 5px 0;
       font-size: 14px;
     }
 
-    .footer-socials img {
-      width: 24px;
-      height: 24px;
-      margin-left: 10px;
+    .footer-legal {
+      text-align: right;
+      flex: 1;
+    }
+
+    .footer-legal h4 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .footer-legal ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-legal ul li {
+      margin: 5px 0;
+    }
+
+    .footer-legal ul li a {
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-legal ul li a:hover {
+      color: #FF6F00;
     }
 
     @media (max-width: 768px) {
       .contenedor {
-        margin-top: 100px;
-        padding: 15px;
-      }
-      
-      .product-grid {
-        grid-template-columns: 1fr;
+        margin-top: 150px;
+        padding: 20px;
       }
       
       .footer-content {
         flex-direction: column;
         text-align: center;
       }
+      
+      .footer-info, .footer-legal {
+        text-align: center;
+        margin-bottom: 15px;
+      }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="header">
@@ -300,12 +300,14 @@
 
   <div class="contenedor">
     <h1>🛒 Cotizador de Materiales en Antofagasta</h1>
-    <input type="text" id="user-input" placeholder="Ejemplo: cemento, clavos, pintura, cerámicos..." />
-    <button onclick="buscarMaterial()">BUSCAR PRECIOS Y STOCK</button>
+    <input type="text" id="user-input" placeholder="Busca materiales (ejemplo: cemento, clavos, pintura)" />
+    <button onclick="buscarMaterial()">Buscar Precios</button>
 
     <div id="loading">
-      <div class="loading-spinner"></div> Buscando en tiendas de Antofagasta...
+      <div class="loading-spinner"></div> Buscando en tiendas...
     </div>
+
+    <div id="busquedas-recientes"></div>
 
     <div id="chat-box"></div>
   </div>
@@ -313,16 +315,18 @@
   <footer>
     <div class="footer-content">
       <div class="footer-info">
-        <p><strong>ENR Cotizador</strong> - Materiales de construcción</p>
-        <p>Antofagasta, Chile | Tel: +56 9 5857 6799</p>
+        <p><strong>ENR</strong> - Cotizador de Materiales</p>
+        <p>Baquedano Nª50 Oficina N°709, Antofagasta, Chile</p>
+        <p>enrservicios@outlook.es | Tel: 958576799</p>
       </div>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/enr.oficial_/" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"/>
-        </a>
-        <a href="https://www.facebook.com/profile.php?id=61573129205817" target="_blank">
-          <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook"/>
-        </a>
+
+      <div class="footer-legal">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="politica-privacidad.html">Política de privacidad</a></li>
+          <li><a href="preguntas-frecuentes.html">Preguntas frecuentes</a></li>
+          <li><a href="terminos.html">Términos y condiciones</a></li>
+        </ul>
       </div>
     </div>
   </footer>
@@ -331,20 +335,28 @@
     const userInput = document.getElementById('user-input');
     const chatBox = document.getElementById('chat-box');
     const loading = document.getElementById('loading');
+    const busquedasRecientes = document.getElementById('busquedas-recientes');
 
-    // Permitir búsqueda al presionar Enter
-    userInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        buscarMaterial();
+    function guardarBusqueda(consulta) {
+      let busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+      busquedas = [consulta, ...busquedas].slice(0, 5);
+      localStorage.setItem('busquedas', JSON.stringify(busquedas));
+      mostrarBusquedasRecientes();
+    }
+
+    function mostrarBusquedasRecientes() {
+      const busquedas = JSON.parse(localStorage.getItem('busquedas')) || [];
+      if (busquedas.length > 0) {
+        busquedasRecientes.innerHTML = "<strong>Búsquedas recientes:</strong> " + 
+          busquedas.map(b => `<a href="#" onclick="buscar('${b}')">${b}</a>`).join(" | ");
       }
-    });
+    }
+
+    mostrarBusquedasRecientes();
 
     async function buscarMaterial() {
       const consulta = userInput.value.trim();
-      if (consulta === '') {
-        alert('Por favor, ingresa un material para buscar');
-        return;
-      }
+      if (consulta === '') return;
 
       loading.style.display = 'block';
       chatBox.innerHTML = '';
@@ -352,23 +364,27 @@
       try {
         const response = await fetch(`/buscar?q=${encodeURIComponent(consulta)}`);
         const data = await response.json();
-        
-        if (data.respuesta.includes('No se encontraron')) {
-          chatBox.innerHTML = `<p style="text-align:center;color:#666;">${data.respuesta}</p>`;
-        } else {
-          chatBox.innerHTML = data.respuesta;
-        }
+
+        chatBox.innerHTML = data.respuesta;
+        guardarBusqueda(consulta);
       } catch (error) {
-        chatBox.innerHTML = `
-          <div style="text-align:center;color:#F44336;">
-            <p>Ocurrió un error al buscar los productos.</p>
-            <p>Intenta nuevamente más tarde.</p>
-          </div>
-        `;
+        chatBox.innerHTML = `<p style="color:#F44336;text-align:center;">Error al buscar productos. Intenta nuevamente.</p>`;
       } finally {
         loading.style.display = 'none';
       }
     }
+
+    function buscar(consulta) {
+      userInput.value = consulta;
+      buscarMaterial();
+    }
+
+    // Permitir búsqueda con Enter
+    userInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        buscarMaterial();
+      }
+    });
   </script>
 </body>
 </html>
